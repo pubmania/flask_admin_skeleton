@@ -1,0 +1,21 @@
+{
+  "name": "Flask Admin Skeleton",
+  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "image": "heroku/python",
+  "repository": "https://github.com/heroku/flask-admin-skeleton",
+  "keywords": ["python", "flask" ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for this application.",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python create_admin_user.py",
+        "test": "python run.py"
+      }
+    }
+  }
+}
