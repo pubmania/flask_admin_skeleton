@@ -17,3 +17,10 @@ Further activities to explore:
 3. Install any missing dependencies.
 4. Once the run.py has worked, press `Ctrl+C` to stop the server.
 5. Then type python and in the python interpreter initiate database using the `create_admin_user.py`
+6. Now start the app by typing `python run.py`
+7. In your browser type: http://localhost:5000/ and register a user with your own username and password.
+8. Login using the username `admin@admin.com` and password `adminpassword`
+9. Go to "Registered Users" link and update the user role to `Admin`.
+10. Logout and login with user you created in Step 7.
+11. Go to Registered users and delete the default admin user you created.
+12. Explore further!!!
