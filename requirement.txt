@@ -1,3 +1,5 @@
+gunicorn
+requests
 flask-SQLAlchemy
 flask-login
 flask-bcrypt
