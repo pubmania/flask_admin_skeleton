@@ -9,3 +9,11 @@ Further activities to explore:
 * Create a grid editable form
 * Creation of subforms
 * Creation of forms in modals
+
+# How To?
+
+1. Clone this repository on your desktop in the python virtual environment.
+2. Go to the directory `approot` on terminal / commandline and give the command `python run.py`
+3. Install any missing dependencies.
+4. Once the run.py has worked, press `Ctrl+C` to stop the server.
+5. Then type python and in the python interpreter initiate database using the `create_admin_user.py`
