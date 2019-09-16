@@ -1,0 +1,9 @@
+flask-SQLAlchemy
+flask-login
+flask-bcrypt
+flask-bootstrap
+flask-mail
+pillow
+flask-wtf
+wtforms
+flask-table
