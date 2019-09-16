@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>About Page</h1>
+<p>
+  This app shows the basic usage of Flask framework. It allows creation and deletion of users.
+  A user can self register but will require and approval from administrator before the user can have access to database entries.
+</p>
+<p>
+  Once the user has access, (s)he can create a post and enter expenses. This functionality demonstrates the usage of <code>wtforms</code>.
+  More specifically, usage of dropdown and display of date field and checkboxes.
+</p>
+<p>
+  Further activities to explore:
+  <li>Create a grid editable form</li>
+  <li>Creation of subforms</li>
+  <li>Creation of forms in modals</li>
+</p>
+{% endblock content %}

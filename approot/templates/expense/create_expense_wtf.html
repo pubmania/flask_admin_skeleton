@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div class="amount-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        {{ wtf.quick_form(form) }}
+    </form>
+</div>
+
+
+{% endblock content %}
