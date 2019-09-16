@@ -6,4 +6,13 @@ name = "pypi"
 [dev-packages]
 
 [packages]
-"bob-builder" = "==0.0.13"
+
+gunicorn 
+flask-bootstrap 
+flask-mail 
+flask-SQLAlchemy 
+flask-bcrypt 
+flask-table 
+flask-wtf 
+flask-login 
+pillow
