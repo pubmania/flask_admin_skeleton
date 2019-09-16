@@ -6,13 +6,3 @@ name = "pypi"
 [dev-packages]
 
 [packages]
-
-gunicorn 
-flask-bootstrap 
-flask-mail 
-flask-SQLAlchemy 
-flask-bcrypt 
-flask-table 
-flask-wtf 
-flask-login 
-pillow
