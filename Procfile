@@ -1,2 +1,2 @@
   
-web: gunicorn approot:app --log-file -
+web: gunicorn "approot:create_app()" --log-file -
