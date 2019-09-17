@@ -9,6 +9,8 @@ Further activities to explore:
 * Create a grid editable form
 * Creation of subforms
 * Creation of forms in modals
+# Demo
+A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
 
 # How To?
 
