@@ -1,2 +1,2 @@
   
-web: gunicorn flask_admin_skeleton:app --log-file -
+web: gunicorn approot:app --log-file -
