@@ -15,7 +15,7 @@ cffi==1.12.3
 Click==7.0
 dominate==2.4.0
 enum34==1.1.6
-Flask"==1.1.1"
+Flask'==1.1.1'
 Flask-Admin==1.5.3
 Flask-Babel==0.12.2
 Flask-BabelEx==0.9.3
