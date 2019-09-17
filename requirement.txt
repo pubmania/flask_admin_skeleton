@@ -1,4 +1,4 @@
-gunicorn
+gunicorn==19.9.0
 alembic==1.1.0
 Babel==2.7.0
 bcrypt==3.1.7
