@@ -13,6 +13,10 @@ Further activities to explore:
 # Demo
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
 
+or deploy your own:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 # How To?
 
 1. Clone this repository on your desktop in the python virtual environment.
