@@ -13,14 +13,19 @@ Further activities to explore:
 # How To?
 
 1. Clone this repository on your desktop in the python virtual environment.
-2. Go to the directory `approot` on terminal / commandline and give the command `python run.py`
-3. Install any missing dependencies.
-4. Once the run.py has worked, press `Ctrl+C` to stop the server.
-5. Then type python and in the python interpreter initiate database using the `create_admin_user.py`
-6. Now start the app by typing `python run.py`
-7. In your browser type: http://localhost:5000/ and register a user with your own username and password.
-8. Login using the username `admin@admin.com` and password `adminpassword`
-9. Go to "Registered Users" link and update the user role to `Admin`.
-10. Logout and login with user you created in Step 7.
-11. Go to Registered users and delete the default admin user you created.
-12. Explore further!!!
+2. Run following commands to install dependencies:
+```python
+pip install --upgrade pip
+pip install gunicorn flask run.py flask-bootstrap flask-mail flask-SQLAlchemy flask-bcrypt flask-table flask-wtf flask-login pillow
+```
+3. Go to the directory `approot` on terminal / commandline and give the command `python run.py`
+4. Although step 2 should have taken care of all dependencies, install any missing dependencies depending on any error during the startup.
+5. Once the run.py has worked, press `Ctrl+C` to stop the server.
+6. Then type python and in the python interpreter initiate database using the `create_admin_user.py`
+7. Now start the app by typing `python run.py`
+8. In your browser type: http://localhost:5000/ and register a user with your own username and password.
+9. Login using the username `admin@admin.com` and password `adminpassword`
+10. Go to "Registered Users" link and update the user role to `Admin`.
+11. Logout and login with user you created in Step 7.
+12. Go to Registered users and delete the default admin user you created.
+13. Explore further!!!
