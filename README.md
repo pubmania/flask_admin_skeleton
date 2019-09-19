@@ -8,7 +8,9 @@ More specifically, usage of dropdown and display of date field and checkboxes.
 Further activities to explore:
 * Create a grid editable form
 * Creation of subforms
-* Creation of forms in modals
+* Modals
+  * ~~Creation and submission of forms using Modals.~~ - Works
+  * Validation to display in Modals and not take back to the page form. - Pending.
 
 # Demo
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
