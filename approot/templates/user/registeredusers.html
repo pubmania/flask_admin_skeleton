@@ -18,12 +18,13 @@
                   <td>{{ user.username }}</td>
                   <td>{{ user.email }}</td>
                   <td>{{ user.role }}</td>
-                  <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td>
+                  <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td> -->
+                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td>
                   <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}">Delete</button></td>
               </tr>
           </tbody>
 
-
+          {% include "user/modalupdateuser.html" %}
       <!-- Delete Modal -->
       <div class="modal fade" id="deleteModal{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

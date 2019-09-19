@@ -62,6 +62,40 @@ def update_user(user_id):
     return render_template('user/updateuser.html', title='Update User',
                            form=form, legend='Update User')
 
+@users.route("/user/modalupdate/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def update_user_modal(user_id):
+    user = User.query.get_or_404(user_id)
+    #if user.id == current_user.id:
+    #    flash('You cannot update your own account!', 'danger')
+    #    abort(403)
+    form = UpdateRegistredUsersForm()
+    if form.validate_on_submit():
+        try:
+            user.username = form.username.data
+            user.email = form.email.data
+            user.role = form.role.data
+            db.session.commit()
+            flash('User details have been updated!', 'success')
+            #return redirect(url_for('users.registeredusers', user_id=user.id))
+        except Exception as e:
+            db.session.rollback()
+            s = str(e)
+            if "user.username" in s:
+                flash('This username is already taken. Please chose a different one.', 'danger')
+                flash('User details have not been updated', 'warning')
+            elif "user.email" in s:
+                flash('This email is already registered. Please chose a different one.', 'danger')
+                flash('User details have not been updated', 'warning')
+            else:
+                flash(e, 'warning')
+    elif request.method == 'GET':
+        form.username.data = user.username
+        form.email.data = user.email
+        form.role.data = user.role
+    return render_template('user/modalupdateuser.html', title='Update User',
+                           form=form, legend='Update User')
+
 @users.route("/register", methods=['GET', 'POST'])
 #@login_required
 def register():

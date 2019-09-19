@@ -3,6 +3,8 @@
 
 {% block content %}
 <div>
+<button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
+{% include "expense/partials/addModal.html" %}
   <table class="table">
     <thead>
         <tr>
@@ -33,31 +35,15 @@
                   <td>{{ expense.expense_date.strftime('%d-%b-%Y') }}</td>
                   <td>{{ expense.vat_amount }}</td>
                   <td>{{ expense.Transferrable }}</td>
-                  <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td>
+                  <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td> -->
+                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td>
                   <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
               </tr>
           </tbody>
 
+      {% include "expense/partials/updateModal.html" %}
+      {% include "expense/partials/deleteModal.html" %}
 
-      <!-- Delete Modal -->
-      <div class="modal fade" id="deleteModal{{ expense.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">Delete Expense?</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <form action="{{ url_for('expenses.delete_expense', expense_id=expense.id) }}" method="POST">
-                <input class="btn btn-danger" type="submit" value="Delete">
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
     {% endfor %}
     </table>
     {% for page_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
