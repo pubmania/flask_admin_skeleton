@@ -6,7 +6,7 @@ Once the user has access, (s)he can create a post and enter expenses. This funct
 More specifically, usage of dropdown and display of date field and checkboxes.
 
 Further activities to explore:
-* ~~ Create a grid editable form~~ - kind of done, can be improved.
+* ~~Create a grid editable form~~ - kind of done, can be improved.
 * Creation of subforms
 * Modals
   * ~~Creation and submission of forms using Modals.~~ - Works
