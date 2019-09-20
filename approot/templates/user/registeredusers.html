@@ -18,8 +18,8 @@
                   <td>{{ user.username }}</td>
                   <td>{{ user.email }}</td>
                   <td>{{ user.role }}</td>
-                  <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td> -->
-                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td>
+                  <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td>
+                  <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td> -->
                   <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}">Delete</button></td>
               </tr>
           </tbody>
@@ -49,9 +49,9 @@
     {% for page_num in users.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if users.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-info mb-4" href="{{ url_for('users.registeredusers', page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('users.registeredusers', page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...

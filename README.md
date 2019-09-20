@@ -10,7 +10,10 @@ Further activities to explore:
 * Creation of subforms
 * Modals
   * ~~Creation and submission of forms using Modals.~~ - Works
-  * Validation to display in Modals and not take back to the page form. - Pending.
+  * ~~Validation to display in Modals and not take back to the page form. - Pending.~~ - Works
+  * Make modal changes for Users table and Posts Table.
+  * Make the button disappear for entries created by other users.
+  * Clean Up code
 
 # Demo
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com

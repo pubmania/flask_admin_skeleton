@@ -4,6 +4,7 @@ from approot import db, bcrypt
 from approot.models import User, Post, Expense
 from approot.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm, UpdateRegistredUsersForm)
+from approot.expenses.forms import ExpenseForm
 from approot.users.utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
@@ -54,46 +55,12 @@ def update_user(user_id):
                 flash('This email is already registered. Please chose a different one.', 'danger')
                 flash('User details have not been updated', 'warning')
             else:
-                flash(e, 'warning')
+                flash(s, 'warning')
     elif request.method == 'GET':
         form.username.data = user.username
         form.email.data = user.email
         form.role.data = user.role
     return render_template('user/updateuser.html', title='Update User',
-                           form=form, legend='Update User')
-
-@users.route("/user/modalupdate/<int:user_id>", methods=['GET', 'POST'])
-@login_required
-def update_user_modal(user_id):
-    user = User.query.get_or_404(user_id)
-    #if user.id == current_user.id:
-    #    flash('You cannot update your own account!', 'danger')
-    #    abort(403)
-    form = UpdateRegistredUsersForm()
-    if form.validate_on_submit():
-        try:
-            user.username = form.username.data
-            user.email = form.email.data
-            user.role = form.role.data
-            db.session.commit()
-            flash('User details have been updated!', 'success')
-            #return redirect(url_for('users.registeredusers', user_id=user.id))
-        except Exception as e:
-            db.session.rollback()
-            s = str(e)
-            if "user.username" in s:
-                flash('This username is already taken. Please chose a different one.', 'danger')
-                flash('User details have not been updated', 'warning')
-            elif "user.email" in s:
-                flash('This email is already registered. Please chose a different one.', 'danger')
-                flash('User details have not been updated', 'warning')
-            else:
-                flash(e, 'warning')
-    elif request.method == 'GET':
-        form.username.data = user.username
-        form.email.data = user.email
-        form.role.data = user.role
-    return render_template('user/modalupdateuser.html', title='Update User',
                            form=form, legend='Update User')
 
 @users.route("/register", methods=['GET', 'POST'])
@@ -168,10 +135,11 @@ def user_posts(username):
 def user_expenses(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
+    form = ExpenseForm()
     expenses = Expense.query.filter_by(author=user)\
         .order_by(Expense.expense_date.desc())\
         .paginate(page=page, per_page=5)
-    return render_template('expense/user_expenses.html', expenses=expenses, user=user)
+    return render_template('expense/expense.html', expenses=expenses, user=user, form=form)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():

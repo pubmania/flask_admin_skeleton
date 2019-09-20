@@ -65,7 +65,7 @@
 
             </fieldset>
             <div class="form-group">
-              <form action="{{ url_for('users.update_user_modal', user_id=user.id) }}" method="POST">
+              <form action="{{ url_for('users.update_user', user_id=user.id) }}" method="POST">
                 <input class="btn btn-primary" type="submit" value="Update">
               </form>
             </div>

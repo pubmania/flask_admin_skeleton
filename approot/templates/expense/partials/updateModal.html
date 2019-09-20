@@ -10,11 +10,13 @@
       </div>
       <div class="modal-body">
         <div class="amount-section">
-            <form method="POST" action="expense/update/{{ expense.id }}">
+            <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">{{ legend }}</legend>
+                    expense/update/{{ expense.id }}
                     <div class="form-group">
+
                         {{ form.description.label(class="form-control-label") }}
                         {% if form.description.errors %}
                             {{ form.description(class="form-control form-control-lg is-invalid") }}
@@ -37,6 +39,7 @@
                                 {% endfor %}
                             </div>
                         {% else %}
+                            <!-- {{ form.amount(class="form-control form-control-lg", value=expense.amount, type="number", required="required", step="0.01") }}-->
                             {{ form.amount(class="form-control form-control-lg", value=expense.amount) }}
                         {% endif %}
                     </div>
@@ -66,7 +69,7 @@
                             </div>
                         {% else %}
 
-                            {{ form.vat_amount(class="form-control form-control-lg", value=expense.vat_amount) }}
+                            {{ form.vat_amount(class="form-control form-control-lg", value=expense.vat_amount, type="number", step="0.01") }}
 
                         {% endif %}
                     </div>
@@ -90,7 +93,7 @@
                 </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a class="btn btn-secondary" href="{{ url_for('expenses.expense') }}">Close</a>
 
           <!-- <a href='#' class="btn btn-primary"> Update </a> -->
 

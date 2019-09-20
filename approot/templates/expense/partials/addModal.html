@@ -1,4 +1,5 @@
 <!-- Add New Modal -->
+{% from "util/macros_modified.html" import form_field_custom with context %}
 {% from "util/macros.html" import form_field with context %}
 <div class="modal fade" id="AddNewModal" tabindex="-1" role="dialog" aria-labelledby="AddNewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -15,81 +16,34 @@
           {{ form.hidden_tag() }}
           <fieldset class="form-group">
             <legend class="border-bottom mb-4">{{ legend }}</legend>
-            <div class="form-group">
-              {{ form.description.label(class="form-control-label") }}
-              {% if form.description.errors %}
-                {{ form.description(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.description.errors %}
-                  <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}
-                {{ form.description(class="form-control form-control-lg") }}
-              {% endif %}
-            </div>
-            <div class="form-group">
-              {{ form.amount.label(class="form-control-label") }}
-              {% if form.amount.errors %}
-                {{ form.amount(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                {% for error in form.amount.errors %}
-                  <span>{{ error }}</span>
-                {% endfor %}
-                </div>
-              {% else %}
-                {{ form.amount(class="form-control form-control-lg") }}
-              {% endif %}
-            </div>
-            <div class="form-group">
-              {{ form.expense_date.label(class="form-control-label") }}
-              {% if form.expense_date.errors %}
-                {{ form.expense_date(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.expense_date.errors %}
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}
-                {{ form.expense_date(class="form-control form-control-lg", type="date") }}
-              {% endif %}
-            </div>
-            <div class="form-group">
-              {{ form.vat_amount.label(class="form-control-label") }}
-              {% if form.vat_amount.errors %}
-                {{ form.vat_amount(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                  {% for error in form.vat_amount.errors %}
-                    <span>{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}
-                {{ form.vat_amount(class="form-control form-control-lg") }}
-              {% endif %}
-            </div>
-            <!-- {{ form_field(form.vat_amount,with_label=True) }} -->
-            <div class="form-group">
-            {% if form.Transferrable.errors %}
-              {{ form.Transferrable(class="form-control form-control-lg is-invalid") }}
-              <div class="invalid-feedback">
-                {% for error in form.Transferrable.errors %}
-                  <span>{{ error }}</span>
-                {% endfor %}
-              </div>
-            {% else %}
-              {{ form.Transferrable(type="checkbox") }}
-            {% endif %}
-              {{ form.Transferrable.label(class="form-control-label") }}
-            </div>
-            <!-- {{ form_field(form.Transferrable) }} -->
+
+            {{ form_field_custom(form.description,with_label=True) }}
+
+            {{ form_field_custom(form.amount,with_label=True, type="number", step="0.01") }}
+
+            {{ form_field_custom(form.expense_date,with_label=True,type="date") }}
+
+            {{ form_field_custom(form.vat_amount,with_label=True,type="number", step="0.01") }}
+
+            {{ form_field_custom(form.Transferrable) }}
+
             <p><button type="submit" class="btn btn-primary">Add</button></p>
             </fieldset>
           </form>
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a class="btn btn-secondary" href="{{ url_for('expenses.expense') }}">Close</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+{% if form.errors %}
+
+<script>
+$('#AddNewModal').modal('show');
+</script>
+
+{% endif %}

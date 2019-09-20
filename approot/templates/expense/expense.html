@@ -1,17 +1,19 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% from "util/macros_modified.html" import form_field_custom with context %}
 
 {% block content %}
 <div>
 <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
+
 {% include "expense/partials/addModal.html" %}
   <table class="table">
     <thead>
         <tr>
             <th>Who?</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Expense Date</th>
+            <th>Description <font color="red">*</font></th>
+            <th>Amount <font color="red">*</font></th>
+            <th>Expense Date <font color="red">*</font></th>
             <th>VAT Amount</th>
             <th>Transferrable</th>
             <th>Edit</th>
@@ -22,6 +24,7 @@
 
           <tbody>
               <tr>
+
                   <td style="text-align:center;">
                       <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + expense.author.image_file) }}">
                       <div class="media-body">
@@ -30,18 +33,39 @@
                         </div>
                       </div>
                   </td>
-                  <td>{{ expense.description }}</td>
-                  <td>{{ expense.amount }}</td>
-                  <td>{{ expense.expense_date.strftime('%d-%b-%Y') }}</td>
-                  <td>{{ expense.vat_amount }}</td>
-                  <td>{{ expense.Transferrable }}</td>
-                  <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td> -->
-                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
+                  <!-- <td>{{ expense.description }}</td> -->
+                  <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
+                    <fieldset class="form-group">
+                      {{ form.hidden_tag() }}
+                      <td>{{ form_field_custom(form.description, value=expense.description) }}</td>
+                      <td>{{ form_field_custom(form.amount, value=expense.amount) }}</td>
+                      <td>{{ form_field_custom(form.expense_date, value=expense.expense_date.strftime('%Y-%m-%d')) }}</td>
+                      <td>{{ form_field_custom(form.vat_amount, value=expense.vat_amount) }}</td>
+                      <td>
+                          {% if expense.Transferrable == False %}
+                              {{ form_field_custom(form.Transferrable) }}
+                          {% else %}
+                              {{ form_field_custom(form.Transferrable,checked="checked") }}
+                          {% endif %}
+                      </td>
+                      <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td> -->
+                      <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
+                      <td><button type="submit" class="btn btn-primary btn-sm m-1">Update</button></td>
+                      <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
+                    </fieldset>
+                  </form>
               </tr>
           </tbody>
-
+      <!-- Update Modal Button-->
       {% include "expense/partials/updateModal.html" %}
+      {% if expense_id %}
+        {% if form.errors %}
+          <script>
+          $("#updateModal{{ expense_id }}").modal('show');
+          </script>
+        {% endif %}
+      {% endif %}
+      <!-- Delete Modal Button-->
       {% include "expense/partials/deleteModal.html" %}
 
     {% endfor %}

@@ -9,7 +9,7 @@ from flask_table import Table, Col, LinkCol
 class ExpenseForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     expense_date = DateField('Expense Date',format='%Y-%m-%d', validators=[DataRequired()])
-    amount = DecimalField('Amount',places=2)
+    amount = DecimalField('Amount',places=2, validators=[DataRequired()])
     vat_amount = DecimalField('VAT Amount',places=2)
     Transferrable = BooleanField('Transferrable?')
     submit = SubmitField('Submit')
