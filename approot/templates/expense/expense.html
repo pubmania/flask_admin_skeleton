@@ -113,12 +113,11 @@
 
                       <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
                       {% if current_user.username == expense.author.username %}
-                        <td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}">Edit</button>
-                        <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}">Cancel</button>
+                        <td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}"><i class="fas fa-edit"></i></button>
+                        <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}"><i class="far fa-window-close"></i></button>
                         </span></td>
-
-                        <td><button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}">Update</button></td>
-                        <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
+                        <td><button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}"><i class="fas fa-save"></i></button></td>
+                        <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}"><i class="fas fa-trash-alt"></i></button></td>
                       {% endif %}
 
                     </fieldset>

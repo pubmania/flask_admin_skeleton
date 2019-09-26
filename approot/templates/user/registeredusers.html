@@ -26,8 +26,8 @@
                   <td><div class="row_data" edit_type="click" col_name="email">{{ user.email }}</div></td>
                   <td><div class="row_data" edit_type="click" col_name="role">{{ user.role }}</div></td>
                   <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td> -->
-                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td>
-                  <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}">Delete</button></td>
+                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}"><i class="fas fa-save"></i></button></td>
+                  <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}"><i class="fas fa-trash-alt"></i></button></td>
               </tr>
           </tbody>
 
