@@ -3,14 +3,59 @@
 {% from "util/macros_modified.html" import form_field_custom with context %}
 
 {% block script %}
-
+  <script>
+  function searchFunction() {
+    var input, filter, table, tr, td, i, txtValue, column_no;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    //column_no = document.getElementById("filterInput").value
+    //console.log(column_no);
+    table = document.getElementById("expense_tbl");
+    tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        console.log(txtValue);
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+  </script>
 {% endblock %}
 
 {% block content %}
 <div>
-<button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
+  <div class="row">
+    <div class="col-sm-8">
+      <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
 
-{% include "expense/partials/addModal.html" %}
+      {% include "expense/partials/addModal.html" %}
+    </div>
+    <div class="col-sm-4">
+      <form class="form-inline" action="">
+        <!--<div class="form-group">
+          <label for="filterInput" class="sr-only">Filter</label>
+          <select class="form-control form-control-sm" id="filterInput">
+            <option value="0">User</option>
+            <option value="1">Description</option>
+            <option value="2">Amount</option>
+            <option value="3">Date</option>
+          </select>
+        </div>-->
+        <div class="form-group">
+          <label for="searchInput" class="sr-only">Search</label>
+          <input type="text" class="form-control form-control-sm" id="searchInput" onkeyup="searchFunction()" placeholder="Search ...">
+        </div>
+      </form>
+    </div>
+  </div>
+
   <table class="table table-hover" id="expense_tbl" style="width: 100%">
     <colgroup>
        <col span="1" style="width: 5%;">
@@ -65,22 +110,17 @@
                               {{ form_field_custom(form.Transferrable,checked="checked", onclick="return false;", id="Transferrable"+ row_id) }}
                           {% endif %}
                       </td>
-                      <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td> -->
-                      <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
 
+                      <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
+                      {% if current_user.username == expense.author.username %}
                         <td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}">Edit</button>
                         <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}">Cancel</button>
                         </span></td>
 
-                      <td>
+                        <td><button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}">Update</button></td>
+                        <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
+                      {% endif %}
 
-                          <button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}">
-                            Update
-                          </button>
-
-                      </td>
-
-                      <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
                     </fieldset>
                   </form>
               </tr>
@@ -118,26 +158,15 @@
           document.getElementById('btn_ed{{ expense.id }}').style.display = "block";
           document.getElementById('btn_cancel{{ expense.id }}').style.display = "none";
         })
-
-
-      	//--->button > cancel > end
+      	//---button > cancel > end
       </script>
-      <!-- Update Modal Button-->
-      {% include "expense/partials/updateModal.html" %}
 
-      {% if expense_id %}
-        {% if form.errors %}
-          <script>
-          $("#updateModal{{ expense_id }}").modal('show');
-          </script>
-        {% endif %}
-      {% endif %}
+
       <!-- Delete Modal Button-->
       {% include "expense/partials/deleteModal.html" %}
 
     {% endfor %}
     </table>
-
 
     {% for page_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}

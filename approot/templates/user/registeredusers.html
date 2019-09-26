@@ -2,34 +2,10 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block script %}
-<script>
-//--->make div editable > start
-$(document).on('click', '.row_data', function(event)
-{
-  event.preventDefault();
 
-  if($(this).attr('edit_type') == 'button')
-  {
-    return false;
-  }
-
-  //make div editable
-  $(this).closest('div').attr('contenteditable', 'true');
-  //add bg css
-  $(this).addClass('bg-warning').css('padding','5px');
-
-  $(this).focus();
-})
-//--->make div editable > end
-</script>
 {% endblock %}
 
 {% block content %}
-
-<!-- {{ json_data }}
-{{ json_data.1 }}
-{{ json_data.2.username }}
--->
 
 <div>
   <table class="table table-hover" id="user_table">
@@ -38,6 +14,8 @@ $(document).on('click', '.row_data', function(event)
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Update</th>
+            <th>Delete</th>
         <tr>
     </thead>
     {% for user in users.items %}

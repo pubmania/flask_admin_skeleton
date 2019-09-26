@@ -21,7 +21,7 @@ def registeredusers():
         json_data[user_data.id] = {'username': user_data.username, 'role': user_data.role, 'email': user_data.email}
     return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users, json_data=json_data)
 
-@users.route("/user/<int:user_id>/delete", methods=['POST'])
+@users.route("/user/delete/<int:user_id>", methods=['POST'])
 @login_required
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
@@ -48,7 +48,7 @@ def update_user(user_id):
             user.role = form.role.data
             db.session.commit()
             flash('User details have been updated!', 'success')
-            return redirect(url_for('users.registeredusers', user_id=user.id))
+            return redirect(url_for('users.registeredusers'))
         except Exception as e:
             db.session.rollback()
             s = str(e)
@@ -60,12 +60,15 @@ def update_user(user_id):
                 flash('User details have not been updated', 'warning')
             else:
                 flash(s, 'warning')
+    return redirect(url_for('users.registeredusers', user_id=user_id))
+""" Commented to see if this will have any negative effect on the flow - I think it won't
     elif request.method == 'GET':
         form.username.data = user.username
         form.email.data = user.email
         form.role.data = user.role
-    return render_template('user/updateuser.html', title='Update User',
-                           form=form, legend='Update User')
+    #return render_template('user/unused_updateuser.html', title='Update User',
+    #                       form=form, legend='Update User')"""
+
 
 @users.route("/register", methods=['GET', 'POST'])
 #@login_required

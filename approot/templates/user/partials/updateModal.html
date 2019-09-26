@@ -12,6 +12,7 @@
       </div>
       <div class="modal-body">
         <div class="amount-section">
+
           <!-- <form method="POST" action="/user/new"> -->
           <form method="POST" action="{{ url_for('users.update_user', user_id=user.id) }}">
           {{ form.hidden_tag() }}
@@ -22,7 +23,9 @@
 
             {{ form_field_custom(form.email,with_label=True, type="email", value=user.email) }}
 
-            {{ form_field_custom(form.role,with_label=True, value=user.role) }}
+            {% set z = form.role.process_data(user.role) %}
+            {{ form_field_custom(form.role,with_label=True) }}
+
 
             <p><button type="submit" class="btn btn-primary">Update</button></p>
             </fieldset>

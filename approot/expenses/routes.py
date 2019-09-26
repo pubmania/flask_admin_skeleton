@@ -29,7 +29,7 @@ def new_expense():
         db.session.commit()
         flash('Your expense has been created!', 'success')
         return redirect(url_for('expenses.expense'))
-    #return render_template('expense/create_expense.html', title='New Expense',
+    #return render_template('expense/unused_create_expense.html', title='New Expense',
     #                       form=form, legend='New Expense')
     return render_template('expense/expense.html', expenses=expenses_from_query, form=form)
 
@@ -37,8 +37,8 @@ def new_expense():
 @expenses.route("/expense/update/<int:expense_id>", methods=['GET', 'POST'])
 @login_required
 def update_expense(expense_id):
-    page = request.args.get('page', 1, type=int)
-    expenses_from_query = Expense.query.order_by(Expense.expense_date.desc()).paginate(page=page, per_page=5)
+    #page = request.args.get('page', 1, type=int)
+    #expenses_from_query = Expense.query.order_by(Expense.expense_date.desc()).paginate(page=page, per_page=5)
     expense = Expense.query.get_or_404(expense_id)
     if expense.author != current_user:
         abort(403)
@@ -61,7 +61,8 @@ def update_expense(expense_id):
         form.Transferrable.data = expense.Transferrable """
     #return render_template('expense/expense.html', title='Update Expense',
     #                       form=form, legend='Update Expense')
-    return render_template('expense/expense.html', expenses=expenses_from_query, form=form, expense_id=expense_id)
+    #return render_template('expense/expense.html', expenses=expenses_from_query, form=form, expense_id=expense_id)
+    return redirect(url_for('expenses.expense'), expense_id=expense_id)
 
 @expenses.route("/expense/delete/<int:expense_id>", methods=['POST'])
 @login_required

@@ -10,16 +10,16 @@ Further activities to explore:
 * ~~Create a grid editable form~~ - Added following functionality on expenses page:
   * ~~Ability to make a row editable using edit button.~~ - Done (For Expense Page)
   * ~~Ability to update using Modal Form.~~ - Done (For User Page)
-  * Add "search" box.
-  * Add "select" row and "multiple delete"
+  * ~~Add "search" box.~~ - Basic Search on expenses table is added but can be improved.
+  * Add "select" row and "multiple delete" - Explore "bootstrap table" as an option.
 * Modals
-  * ~~Creation and submission of forms using Modals.~~ - Works
-  * ~~Validation to display in Modals and not take back to the page form. - Pending.~~ - Works
+  * ~~Creation and submission of forms using Modals.~~ - Done
+  * ~~Validation to display in Modals and not take back to the page form.~~ - Done
+  * ~~Make the update button disappear for entries created by other users.~~ Done
   * Make modal changes for ~~Users table~~ Done
   * Make modal changes for Posts Table.
-  * Make the update button disappear for entries created by other users.
   * Clean Up code
-* Creation of subforms
+* Creation of subforms - Possibly just a mechanism to add modals. Although need to understand the cascade of deletion using SQLAlchemy.
 
 # Demo
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
