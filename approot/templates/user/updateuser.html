@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
+{% from "util/macros_modified.html" import form_field_custom with context %}
 {% block content %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Update User</legend>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
 
                     {% if form.username.errors %}
@@ -18,8 +19,9 @@
                     {% else %}
                         {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
-                </div>
-                <div class="form-group">
+                </div> -->
+                {{ form_field_custom(form.username,with_label=True) }}
+                <!-- <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     {% if form.email.errors %}
                         {{ form.email(class="form-control form-control-lg is-invalid") }}
@@ -31,8 +33,9 @@
                     {% else %}
                         {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
-                </div>
-                <div class="form-group">
+                </div> -->
+                {{ form_field_custom(form.email,with_label=True, type="email") }}
+                <!-- <div class="form-group">
                     {{ form.role.label(class="form-control-label") }}
                     {% if form.role.errors %}
                         {{ form.role(class="form-control form-control-lg is-invalid") }}
@@ -44,7 +47,8 @@
                     {% else %}
                         {{ form.role(class="form-control form-control-lg") }}
                     {% endif %}
-                </div>
+                </div> -->
+                {{ form_field_custom(form.role,with_label=True) }}
 
             </fieldset>
             <div class="form-group">

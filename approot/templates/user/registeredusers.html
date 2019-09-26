@@ -1,9 +1,38 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block script %}
+<script>
+//--->make div editable > start
+$(document).on('click', '.row_data', function(event)
+{
+  event.preventDefault();
+
+  if($(this).attr('edit_type') == 'button')
+  {
+    return false;
+  }
+
+  //make div editable
+  $(this).closest('div').attr('contenteditable', 'true');
+  //add bg css
+  $(this).addClass('bg-warning').css('padding','5px');
+
+  $(this).focus();
+})
+//--->make div editable > end
+</script>
+{% endblock %}
+
 {% block content %}
+
+<!-- {{ json_data }}
+{{ json_data.1 }}
+{{ json_data.2.username }}
+-->
+
 <div>
-  <table class="table">
+  <table class="table table-hover" id="user_table">
     <thead>
         <tr>
             <th>Username</th>
@@ -14,17 +43,26 @@
     {% for user in users.items %}
 
           <tbody>
-            <tr>
-                  <td>{{ user.username }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.role }}</td>
-                  <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td>
-                  <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td> -->
+            <tr row_id="{{ user.id }}">
+                  <td><div class="row_data" edit_type="click" col_name="username">{{ user.username }}</div></td>
+                  <td><div class="row_data" edit_type="click" col_name="email">{{ user.email }}</div></td>
+                  <td><div class="row_data" edit_type="click" col_name="role">{{ user.role }}</div></td>
+                  <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('users.update_user', user_id=user.id) }}">Update</a></td> -->
+                  <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ user.id }}">Update</button></td>
                   <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ user.id }}">Delete</button></td>
               </tr>
           </tbody>
 
-          {% include "user/modalupdateuser.html" %}
+      <!-- Update Modal -->
+      {% include "user/partials/updateModal.html" %}
+
+      {% if expense_id %}
+        {% if form.errors %}
+          <script>
+          $("#updateModal{{ user_id }}").modal('show');
+          </script>
+        {% endif %}
+      {% endif %}
       <!-- Delete Modal -->
       <div class="modal fade" id="deleteModal{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

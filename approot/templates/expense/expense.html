@@ -2,12 +2,27 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% from "util/macros_modified.html" import form_field_custom with context %}
 
+{% block script %}
+
+{% endblock %}
+
 {% block content %}
 <div>
 <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
 
 {% include "expense/partials/addModal.html" %}
-  <table class="table">
+  <table class="table table-hover" id="expense_tbl" style="width: 100%">
+    <colgroup>
+       <col span="1" style="width: 5%;">
+       <col span="1" style="width: 35%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 10%;">
+       <col span="1" style="width: 15%;">
+       <col span="1" style="width: 5%;">
+       <col span="1" style="width: 5%;">
+       <col span="1" style="width: 5%;">
+       <col span="1" style="width: 5%;">
+    </colgroup>
     <thead>
         <tr>
             <th>Who?</th>
@@ -17,13 +32,14 @@
             <th>VAT Amount</th>
             <th>Transferrable</th>
             <th>Edit</th>
+            <th>Update</th>
             <th>Delete</th>
         <tr>
     </thead>
     {% for expense in expenses.items %}
 
           <tbody>
-              <tr>
+              <tr row_id="{{ expense.id }}">
 
                   <td style="text-align:center;">
                       <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + expense.author.image_file) }}">
@@ -37,27 +53,78 @@
                   <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
                     <fieldset class="form-group">
                       {{ form.hidden_tag() }}
-                      <td>{{ form_field_custom(form.description, value=expense.description) }}</td>
-                      <td>{{ form_field_custom(form.amount, value=expense.amount) }}</td>
-                      <td>{{ form_field_custom(form.expense_date, value=expense.expense_date.strftime('%Y-%m-%d')) }}</td>
-                      <td>{{ form_field_custom(form.vat_amount, value=expense.vat_amount) }}</td>
+                      {% set row_id = expense.id|string %}
+                      <td>{{ form_field_custom(form.description, value=expense.description, readonly="readonly", id="description"+ row_id) }}</td>
+                      <td>{{ form_field_custom(form.amount, value=expense.amount, readonly="readonly", id="amount"+ row_id, type="number", step="0.01") }}</td>
+                      <td>{{ form_field_custom(form.expense_date, value=expense.expense_date.strftime('%Y-%m-%d'), readonly="readonly", id="expense_date"+ row_id) }}</td>
+                      <td>{{ form_field_custom(form.vat_amount, value=expense.vat_amount, readonly="readonly", id="vat_amount"+ row_id, type="number", step="0.01") }}</td>
                       <td>
                           {% if expense.Transferrable == False %}
-                              {{ form_field_custom(form.Transferrable) }}
+                              {{ form_field_custom(form.Transferrable, onclick="return false;", id="Transferrable"+ row_id) }}
                           {% else %}
-                              {{ form_field_custom(form.Transferrable,checked="checked") }}
+                              {{ form_field_custom(form.Transferrable,checked="checked", onclick="return false;", id="Transferrable"+ row_id) }}
                           {% endif %}
                       </td>
                       <!-- <td><a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">Update</a></td> -->
                       <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
-                      <td><button type="submit" class="btn btn-primary btn-sm m-1">Update</button></td>
+
+                        <td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}">Edit</button>
+                        <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}">Cancel</button>
+                        </span></td>
+
+                      <td>
+
+                          <button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}">
+                            Update
+                          </button>
+
+                      </td>
+
                       <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}">Delete</button></td>
                     </fieldset>
                   </form>
               </tr>
           </tbody>
+      <!-- Make EDIT button-->
+
+      <script>
+        $("#btn_ed{{ expense.id }}").on('click', function(event)
+      	{
+      		event.preventDefault();
+          document.getElementById('description{{ expense.id }}').readOnly = false;
+          document.getElementById('amount{{ expense.id }}').readOnly = false;
+          document.getElementById('expense_date{{ expense.id }}').readOnly = false;
+          document.getElementById('vat_amount{{ expense.id }}').readOnly = false;
+          document.getElementById('Transferrable{{ expense.id }}').onclick = "return true";
+          document.getElementById('btn_ed{{ expense.id }}').style.display = "none";
+          document.getElementById('btn_cancel{{ expense.id }}').style.display = "block";
+        })
+
+        $("#btn_cancel{{ expense.id }}").on('click', function(event)
+      	{
+      		event.preventDefault();
+          document.getElementById('description{{ expense.id }}').readOnly = true;
+          document.getElementById('description{{ expense.id }}').value = "{{ expense.description }}";
+          document.getElementById('amount{{ expense.id }}').readOnly = true;
+          document.getElementById('amount{{ expense.id }}').value = "{{ expense.amount }}";
+          document.getElementById('expense_date{{ expense.id }}').readOnly = true;
+          document.getElementById('expense_date{{ expense.id }}').value = "{{ expense.expense_date.strftime('%Y-%m-%d') }}";
+          document.getElementById('vat_amount{{ expense.id }}').readOnly = true;
+          document.getElementById('vat_amount{{ expense.id }}').value = "{{ expense.vat_amount }}";
+          document.getElementById('Transferrable{{ expense.id }}').onclick = "return false";
+          if ("{{ expense.Transferrable }}"=="True") {
+          document.getElementById('Transferrable{{ expense.id }}').checked="checked";
+          }
+          document.getElementById('btn_ed{{ expense.id }}').style.display = "block";
+          document.getElementById('btn_cancel{{ expense.id }}').style.display = "none";
+        })
+
+
+      	//--->button > cancel > end
+      </script>
       <!-- Update Modal Button-->
       {% include "expense/partials/updateModal.html" %}
+
       {% if expense_id %}
         {% if form.errors %}
           <script>
@@ -70,6 +137,8 @@
 
     {% endfor %}
     </table>
+
+
     {% for page_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if expenses.page == page_num %}

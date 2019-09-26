@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from approot import db, bcrypt
 from approot.models import User, Post, Expense
@@ -15,7 +15,11 @@ def registeredusers():
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=5)
     form = UpdateRegistredUsersForm()
-    return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users)
+    users_data = User.query.order_by(User.username.desc()).all()
+    json_data = {}
+    for user_data in users_data:
+        json_data[user_data.id] = {'username': user_data.username, 'role': user_data.role, 'email': user_data.email}
+    return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users, json_data=json_data)
 
 @users.route("/user/<int:user_id>/delete", methods=['POST'])
 @login_required

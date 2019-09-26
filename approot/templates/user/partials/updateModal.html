@@ -1,0 +1,46 @@
+<!-- Add New Modal -->
+{% from "util/macros_modified.html" import form_field_custom with context %}
+{% from "util/macros.html" import form_field with context %}
+<div class="modal fade" id="updateModal{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Update User?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="amount-section">
+          <!-- <form method="POST" action="/user/new"> -->
+          <form method="POST" action="{{ url_for('users.update_user', user_id=user.id) }}">
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+
+            {{ form_field_custom(form.username,with_label=True,value=user.username) }}
+
+            {{ form_field_custom(form.email,with_label=True, type="email", value=user.email) }}
+
+            {{ form_field_custom(form.role,with_label=True, value=user.role) }}
+
+            <p><button type="submit" class="btn btn-primary">Update</button></p>
+            </fieldset>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-secondary" href="{{ url_for('users.registeredusers') }}">Close</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if form.errors %}
+
+<script>
+$('#AddNewModal').modal('show');
+</script>
+
+{% endif %}

@@ -20,7 +20,7 @@
     {% endif %}
 
     {% set class_ = kwargs.pop('class_', '') %}
-    {% set class_ = class_+ 'form-control form-control-lg' %}
+    {% set class_ = class_+ 'form-control form-control-sm' %}
 
     {% if field.errors %}
       {% set class_ = class_ + ' is-invalid' %}

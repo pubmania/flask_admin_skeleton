@@ -6,14 +6,20 @@ Once the user has access, (s)he can create a post and enter expenses. This funct
 More specifically, usage of dropdown and display of date field and checkboxes.
 
 Further activities to explore:
-* ~~Create a grid editable form~~ - kind of done, can be improved.
-* Creation of subforms
+* ~~Create Macro for creating fields~~ - Done
+* ~~Create a grid editable form~~ - Added following functionality on expenses page:
+  * ~~Ability to make a row editable using edit button.~~ - Done (For Expense Page)
+  * ~~Ability to update using Modal Form.~~ - Done (For User Page)
+  * Add "search" box.
+  * Add "select" row and "multiple delete"
 * Modals
   * ~~Creation and submission of forms using Modals.~~ - Works
   * ~~Validation to display in Modals and not take back to the page form. - Pending.~~ - Works
-  * Make modal changes for Users table and Posts Table.
-  * Make the button disappear for entries created by other users.
+  * Make modal changes for ~~Users table~~ Done
+  * Make modal changes for Posts Table.
+  * Make the update button disappear for entries created by other users.
   * Clean Up code
+* Creation of subforms
 
 # Demo
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
