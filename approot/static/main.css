@@ -1,11 +1,90 @@
 body {
-  background: #fafafa;
-  color: #333333;
+  background: #1b1b1c;
+  color: #f7c833;
   margin-top: 5rem;
 }
 
+.page-item.active .page-link {
+  color: #f7c833;
+  background-color: #1b1b1c;
+  border-color: #f7c833;
+}
+
+.page-link {
+  color: #1b1b1c;
+}
+
+.btn {
+  font-weight: bold;
+  color: #1b1b1c;
+  background-color: #f7c833;
+  border-color: #f7c833;
+}
+
+.btn:hover {
+    color: #f7c833;
+    background-color: #1b1b1c;
+    border-color: #f7c833;
+}
+
+.btn-danger{
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-secondary {
+    color: #f7c833;
+    background-color: #212529;
+    border-color: #f7c833;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-primary {
+    color: #1b1b1c;
+    background-color: #f7c833;
+    border-color: #1b1b1c;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    color: #f7c833;
+    background-color: #1b1b1c;
+    border-color: #f7c833;
+    font-weight: bold;
+}
+
+.btn-primary-rev {
+    color: #f7c833;
+    background-color: #1b1b1c;
+    border-color: #f7c833;
+    font-weight: bold;
+}
+
+.btn-primary-rev:hover {
+    color: #1b1b1c;
+    background-color: #f7c833;
+    border-color: #1b1b1c;
+    font-weight: bold;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+  color: #ee861a;
+}
+
+.modal-open {
+  color: black;
+  font-weight: bold;
+}
+
+pre {
+    font-size: 87.5%;
+    color: #2e8709;
 }
 
 .bg-steel {
@@ -29,11 +108,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+    background: #f7c833;
+    padding: 10px 20px;
+    border: 1px solid #ffffff;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    color: #1b1b1c;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 .article-title {
