@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from approot import db
-from approot.models import Expense
+from approot.models import Expense, User
 from approot.expenses.forms import ExpenseForm
 
 expenses = Blueprint('expenses', __name__)
@@ -10,11 +10,23 @@ expenses = Blueprint('expenses', __name__)
 @expenses.route("/expense")
 @login_required
 def expense():
-    page = request.args.get('page', 1, type=int)
-    expenses = Expense.query.order_by(Expense.expense_date.desc()).paginate(page=page, per_page=5)
+    #page = request.args.get('page', 1, type=int)
+    #expenses = Expense.query.order_by(Expense.expense_date.desc()).paginate(page=page, per_page=5)
+    expenses = Expense.query.order_by(Expense.expense_date.desc()).all()
     form = ExpenseForm()
         #return redirect(url_for('expenses.expense'))
     return render_template('expense/expense.html', expenses=expenses, form=form)
+
+@expenses.route("/user/expenses/<string:username>")
+def user_expenses(username):
+    #page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    form = ExpenseForm()
+    expenses = Expense.query.filter_by(author=user)\
+        .order_by(Expense.expense_date.desc())\
+        .all()
+        #.paginate(page=page, per_page=5)
+    return render_template('expense/expense.html', expenses=expenses, user=user, form=form)
 
 @expenses.route("/expense/new", methods=['GET', 'POST'])
 @login_required
