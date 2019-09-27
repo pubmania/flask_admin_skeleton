@@ -103,7 +103,7 @@ def login():
 @users.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.about'))
 
 
 @users.route("/account", methods=['GET', 'POST'])
