@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify
+from flask import render_template, url_for, flash, redirect, request, Blueprint, abort, jsonify, json
 from flask_login import login_user, current_user, logout_user, login_required
 from approot import db, bcrypt
 from approot.models import User, Post, Expense
@@ -12,14 +12,12 @@ users = Blueprint('users', __name__)
 @users.route("/registeredusers", methods=['GET', 'POST'])
 @login_required
 def registeredusers():
-    page = request.args.get('page', 1, type=int)
-    users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=5)
+    #page = request.args.get('page', 1, type=int)
+    #users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=5)
+    users = User.query.order_by(User.username.desc()).all()
     form = UpdateRegistredUsersForm()
     users_data = User.query.order_by(User.username.desc()).all()
-    json_data = {}
-    for user_data in users_data:
-        json_data[user_data.id] = {'username': user_data.username, 'role': user_data.role, 'email': user_data.email}
-    return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users, json_data=json_data)
+    return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users)
 
 @users.route("/user/delete/<int:user_id>", methods=['POST'])
 @login_required
@@ -138,15 +136,6 @@ def user_posts(username):
         .paginate(page=page, per_page=5)
     return render_template('post/user_posts.html', posts=posts, user=user)
 
-@users.route("/user/expenses/<string:username>")
-def user_expenses(username):
-    page = request.args.get('page', 1, type=int)
-    user = User.query.filter_by(username=username).first_or_404()
-    form = ExpenseForm()
-    expenses = Expense.query.filter_by(author=user)\
-        .order_by(Expense.expense_date.desc())\
-        .paginate(page=page, per_page=5)
-    return render_template('expense/expense.html', expenses=expenses, user=user, form=form)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
