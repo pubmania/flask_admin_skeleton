@@ -1,45 +1,27 @@
 {% extends "layout.html" %}
+{% from "util/macros_modified.html" import form_field_custom with context %}
 {% block content %}
+<div class="row">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-6">
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
-                <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
+                {{ form_field_custom(form.email,with_label=True, type="email") }}
+                {{ form_field_custom(form.password,with_label=True, type="password") }}
+                <!-- {{ form_field_custom(form.remember) }} -->
                 <div class="form-check">
                     {{ form.remember(class="form-check-input") }}
                     {{ form.remember.label(class="form-check-label") }}
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ form.submit(class="btn btn-primary-rev") }}
                 <small class="text-muted ml-2">
-                    <a href="{{ url_for('users.reset_request') }}">Forgot Password?</a>
+                    <strong><a href="{{ url_for('users.reset_request') }}">Forgot Password?</a></strong>
                 </small>
             </div>
         </form>
@@ -48,5 +30,7 @@
         <small class="text-muted">
             Need An Account? <a class="ml-2" href="{{ url_for('users.register') }}">Sign Up Now</a>
         </small>
-    </div> 
+    </div>
+    </div>
+    </div>
 {% endblock content %}

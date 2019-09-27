@@ -1,13 +1,30 @@
 {% extends "layout.html" %}
+{% from "util/macros_modified.html" import form_field_custom with context %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<div class="amount-section">
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ wtf.quick_form(form) }}
-    </form>
+<div class="row">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-6">
+    <div class="content-section mt-3">
+      <form method="POST" action="{{ url_for('users.register') }}">
+          {{ form.hidden_tag() }}
+          <!--{{ wtf.quick_form(form) }}-->
+          <legend class="border-bottom mb-4">Register</legend>
+          {{ form_field_custom(form.username,with_label=True) }}
+          {{ form_field_custom(form.email,with_label=True) }}
+          {{ form_field_custom(form.password,with_label=True) }}
+          {{ form_field_custom(form.confirm_password,with_label=True) }}
+
+          <div class="form-group">
+              {{ form.submit(class="btn btn-primary-rev") }}
+          </div>
+      </form>
+    </div>
+  </div>
 </div>
+
 
 
 {% endblock content %}
