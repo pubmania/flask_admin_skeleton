@@ -6,14 +6,15 @@ from flask_login import current_user, login_required
 main = Blueprint('main', __name__)
 
 
-@main.route("/")
+
 @main.route("/home")
+@login_required
 def home():
     page = request.args.get('page', 1, type=int)
     expenses = Expense.query.order_by(Expense.expense_date.desc()).paginate(page=page, per_page=5)
     return render_template('home.html', expenses=expenses)
 
-
+@main.route("/")
 @main.route("/about")
 def about():
     page = request.args.get('page', 1, type=int)
