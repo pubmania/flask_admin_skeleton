@@ -1,183 +1,125 @@
 {% extends "layout.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% from "util/macros_modified.html" import form_field_custom with context %}
 
 {% block script %}
-  <script>
-  function searchFunction() {
-    var input, filter, table, tr, td, i, txtValue, column_no;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    //column_no = document.getElementById("filterInput").value
-    //console.log(column_no);
-    table = document.getElementById("expense_tbl");
-    tr = table.getElementsByTagName("tr");
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        console.log(txtValue);
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
-  }
-  </script>
+
 {% endblock %}
 
 {% block content %}
 <div>
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-sm-8">
       <button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#AddNewModal">Add New Expense</button>
-
       {% include "expense/partials/addModal.html" %}
-    </div>
-    <div class="col-sm-4">
-      <form class="form-inline" action="">
-        <!--<div class="form-group">
-          <label for="filterInput" class="sr-only">Filter</label>
-          <select class="form-control form-control-sm" id="filterInput">
-            <option value="0">User</option>
-            <option value="1">Description</option>
-            <option value="2">Amount</option>
-            <option value="3">Date</option>
-          </select>
-        </div>-->
-        <div class="form-group">
-          <label for="searchInput" class="sr-only">Search</label>
-          <input type="text" class="form-control form-control-sm" id="searchInput" onkeyup="searchFunction()" placeholder="Search ...">
-        </div>
-      </form>
     </div>
   </div>
 
-  <table class="table table-hover" id="expense_tbl" style="width: 100%">
+  <table
+  class="table table-hover"
+  id="expense_tbl"
+  style="width: 100%"
+  data-toggle="table"
+  data-search="true"
+  data-show-toggle="true"
+  data-show-columns="true"
+  data-show-export="true"
+  data-pagination="true"
+  data-show-extended-pagination="true"
+  data-page-list="[3, 5, 10, 25, 50, 100, all]"
+  data-page-size="5"
+  data-show-export="true">
     <colgroup>
        <col span="1" style="width: 5%;">
-       <col span="1" style="width: 35%;">
+       <col span="1" style="width: 40%;">
        <col span="1" style="width: 15%;">
        <col span="1" style="width: 10%;">
        <col span="1" style="width: 15%;">
        <col span="1" style="width: 5%;">
        <col span="1" style="width: 5%;">
        <col span="1" style="width: 5%;">
-       <col span="1" style="width: 5%;">
     </colgroup>
     <thead>
         <tr>
-            <th>Who?</th>
+            <th data-sortable="true">Who?</th>
             <th>Description <font color="red">*</font></th>
-            <th>Amount <font color="red">*</font></th>
-            <th>Expense Date <font color="red">*</font></th>
+            <th data-sortable="true">Amount <font color="red">*</font></th>
+            <th data-sortable="true">Expense Date <font color="red">*</font></th>
             <th>VAT Amount</th>
             <th>Transferrable</th>
-            <th>Edit</th>
             <th>Update</th>
             <th>Delete</th>
         <tr>
     </thead>
-    {% for expense in expenses.items %}
+    <tbody>
 
-          <tbody>
+     {% for expense in expenses %}
+
               <tr row_id="{{ expense.id }}">
 
                   <td style="text-align:center;">
-                      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + expense.author.image_file) }}">
-                      <div class="media-body">
-                        <div class="article-metadata">
-                          <a class="mr-2" href="{{ url_for('users.user_expenses', username=expense.author.username) }}">{{ expense.author.username }}</a>
-                        </div>
+                      <div align="center">
+                        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + expense.author.image_file) }}">
+                      </div>
+                      <div align="center">
+                        <!--<div class="article-metadata">-->
+                          <a class="mr-2" href="{{ url_for('expenses.user_expenses', username=expense.author.username) }}">{{ expense.author.username }}</a>
+                        <!--</div>-->
                       </div>
                   </td>
                   <!-- <td>{{ expense.description }}</td> -->
                   <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
-                    <fieldset class="form-group">
+                    <fieldset class="form-group" style="display:none">
                       {{ form.hidden_tag() }}
-                      {% set row_id = expense.id|string %}
-                      <td>{{ form_field_custom(form.description, value=expense.description, readonly="readonly", id="description"+ row_id) }}</td>
-                      <td>{{ form_field_custom(form.amount, value=expense.amount, readonly="readonly", id="amount"+ row_id, type="number", step="0.01") }}</td>
-                      <td>{{ form_field_custom(form.expense_date, value=expense.expense_date.strftime('%Y-%m-%d'), readonly="readonly", id="expense_date"+ row_id) }}</td>
-                      <td>{{ form_field_custom(form.vat_amount, value=expense.vat_amount, readonly="readonly", id="vat_amount"+ row_id, type="number", step="0.01") }}</td>
-                      <td>
+                      <!--{% set row_id = expense.id|string %}-->
+                      <td>{{ expense.description }}</td>
+                      <td>{{ expense.amount }}</td>
+                      <td>{{ expense.expense_date.strftime('%Y-%m-%d') }}</td>
+                      <td>{{ expense.vat_amount }}</td>
+                      <!--<td disabled="disabled" checked="checked"></td>-->
                           {% if expense.Transferrable == False %}
-                              {{ form_field_custom(form.Transferrable, onclick="return false;", id="Transferrable"+ row_id) }}
+                              <!--{{ form_field_custom(form.Transferrable, disabled="disabled", id="Transferrable"+ row_id) }}-->
+                              <td>
+                                <input name="btSelectItem" type="checkbox" disabled="disabled">
+                              </td>
                           {% else %}
-                              {{ form_field_custom(form.Transferrable,checked="checked", onclick="return false;", id="Transferrable"+ row_id) }}
+                              <!--{{ form_field_custom(form.Transferrable,checked="checked", onclick="return false;", id="Transferrable"+ row_id) }}-->
+                              <td>
+                                <input data-index="5" name="btSelectItem" type="checkbox" checked="checked" disabled="disabled">
+                              </td>
                           {% endif %}
-                      </td>
+                      <!--</td>-->
 
-                      <!-- <td><button type="button" class="btn btn-primary btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}">Update</button></td> -->
+
                       {% if current_user.username == expense.author.username %}
-                        <td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}"><i class="fas fa-edit"></i></button>
+                        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}"><i class="fas fa-edit"></button></td>
+                        <!--<td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}"><i class="fas fa-edit"></i></button>
                         <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}"><i class="far fa-window-close"></i></button>
                         </span></td>
-                        <td><button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}"><i class="fas fa-save"></i></button></td>
+                        <td><button type="submit" class="btn btn-primary btn-sm m-1" id="btn_up{{ expense.id }}"><i class="fas fa-save"></i></button></td>-->
                         <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ expense.id }}"><i class="fas fa-trash-alt"></i></button></td>
                       {% endif %}
 
                     </fieldset>
                   </form>
               </tr>
-          </tbody>
-      <!-- Make EDIT button-->
 
-      <script>
-        $("#btn_ed{{ expense.id }}").on('click', function(event)
-      	{
-      		event.preventDefault();
-          document.getElementById('description{{ expense.id }}').readOnly = false;
-          document.getElementById('amount{{ expense.id }}').readOnly = false;
-          document.getElementById('expense_date{{ expense.id }}').readOnly = false;
-          document.getElementById('vat_amount{{ expense.id }}').readOnly = false;
-          document.getElementById('Transferrable{{ expense.id }}').onclick = "return true";
-          document.getElementById('btn_ed{{ expense.id }}').style.display = "none";
-          document.getElementById('btn_cancel{{ expense.id }}').style.display = "block";
-        })
-
-        $("#btn_cancel{{ expense.id }}").on('click', function(event)
-      	{
-      		event.preventDefault();
-          document.getElementById('description{{ expense.id }}').readOnly = true;
-          document.getElementById('description{{ expense.id }}').value = "{{ expense.description }}";
-          document.getElementById('amount{{ expense.id }}').readOnly = true;
-          document.getElementById('amount{{ expense.id }}').value = "{{ expense.amount }}";
-          document.getElementById('expense_date{{ expense.id }}').readOnly = true;
-          document.getElementById('expense_date{{ expense.id }}').value = "{{ expense.expense_date.strftime('%Y-%m-%d') }}";
-          document.getElementById('vat_amount{{ expense.id }}').readOnly = true;
-          document.getElementById('vat_amount{{ expense.id }}').value = "{{ expense.vat_amount }}";
-          document.getElementById('Transferrable{{ expense.id }}').onclick = "return false";
-          if ("{{ expense.Transferrable }}"=="True") {
-          document.getElementById('Transferrable{{ expense.id }}').checked="checked";
-          }
-          document.getElementById('btn_ed{{ expense.id }}').style.display = "block";
-          document.getElementById('btn_cancel{{ expense.id }}').style.display = "none";
-        })
-      	//---button > cancel > end
-      </script>
-
-
+      <!-- Update Modal Button-->
+      {% include "expense/partials/updateModal.html" %}
+      {% if expense_id %}
+        {% if form.errors %}
+          <script>
+          $("#updateModal{{ expense_id }}").modal('show');
+          </script>
+        {% endif %}
+      {% endif %}
       <!-- Delete Modal Button-->
       {% include "expense/partials/deleteModal.html" %}
 
     {% endfor %}
+    </tbody>
     </table>
 
-    {% for page_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if expenses.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('expenses.expense', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('expenses.expense', page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+
 </div>
 
 {% endblock content %}
