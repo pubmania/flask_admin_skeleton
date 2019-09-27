@@ -1,8 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<div class="mt-3">
 <h2>Hola! {{ current_user.username }}</h2>
 {% if current_user.is_authenticated and current_user.role == 'Pending' %}
 <h3> Please contact the administrator to get your role changed as you will not have access to all functionality without the right role assigned. </h3>
 {% endif %}
+</div>
+
 {% endblock content %}
