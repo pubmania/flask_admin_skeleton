@@ -1,27 +1,40 @@
 # flask_admin_skeleton
+
 This app shows the basic usage of Flask framework. It allows creation and deletion of users.   
-A user can self register but will require and approval from administrator before the user can have access to database entries.
+A user can self register but will require an approval from administrator before the user can have access to database entries.
 
 Once the user has access, (s)he can create a post and enter expenses. This functionality demonstrates the usage of `wtforms`.
 More specifically, usage of dropdown and display of date field and checkboxes.
 
-Further activities to explore:
+# Change Log:
+
+22/09/2019
+* Bootstrap Table related - Removed Server side pagination
+* Moved User Expense from User blue print to Expense Blue Print
+* Changed landing page to about.html and made home page accessible to logged in users.
+* Created a dark theme and applied as default.
+
+
+# Further activities to explore:
+
 * ~~Create Macro for creating fields~~ - Done
 * ~~Create a grid editable form~~ - Added following functionality on expenses page:
   * ~~Ability to make a row editable using edit button.~~ - Done (For Expense Page)
   * ~~Ability to update using Modal Form.~~ - Done (For User Page)
-  * ~~Add "search" box.~~ - Basic Search on expenses table is added but can be improved.
+  * ~~Add "search" box. - Basic Search on expenses table is added but can be improved.~~ Done - Applied [Bootstrap Table](https://bootstrap-table.com/)
   * Add "select" row and "multiple delete" - Explore "bootstrap table" as an option.
+
 * Modals
   * ~~Creation and submission of forms using Modals.~~ - Done
   * ~~Validation to display in Modals and not take back to the page form.~~ - Done
   * ~~Make the update button disappear for entries created by other users.~~ Done
-  * Make modal changes for ~~Users table~~ Done
+  * ~~Make modal changes for Users table~~ Done
   * Make modal changes for Posts Table.
   * Clean Up code
 * Creation of subforms - Possibly just a mechanism to add modals. Although need to understand the cascade of deletion using SQLAlchemy.
 
 # Demo
+
 A working demo is available on the link: https://flask-admin-skeleton.herokuapp.com
 
 or deploy your own:
@@ -36,7 +49,7 @@ or deploy your own:
 pip install --upgrade pip
 pip install gunicorn flask run.py flask-bootstrap flask-mail flask-SQLAlchemy flask-bcrypt flask-table flask-wtf flask-login pillow
 ```
-3. Go to the directory `approot` on terminal / commandline and give the command `python run.py`
+3. Go to the directory `approot` on terminal / commandline and type the command `python run.py`
 4. Although step 2 should have taken care of all dependencies, install any missing dependencies depending on any error during the startup.
 5. Once the run.py has worked, press `Ctrl+C` to stop the server.
 6. Then type python and in the python interpreter initiate database using the `create_admin_user.py`

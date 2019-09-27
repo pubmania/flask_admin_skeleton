@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="mt-3">
 <h1>About Page</h1>
 <p>
   This app shows the basic usage of Flask framework. It allows creation and deletion of users.
-  A user can self register but will require and approval from administrator before the user can have access to database entries.
+  A user can self register but will require an approval from administrator before the user can have access to database entries.
 </p>
 <p>
   Once the user has access, (s)he can create a post and enter expenses. This functionality demonstrates the usage of <code>wtforms</code>.
@@ -16,13 +17,14 @@
     * ~~Create a grid editable form~~ - Added following functionality on expenses page:
       * ~~Ability to make a row editable using edit button.~~ - Done (For Expense Page)
       * ~~Ability to update using Modal Form.~~ - Done (For User Page)
-      * ~~Add "search" box.~~ - Basic Search on expenses table is added but can be improved.
+      * ~~Add "search" box. - Basic Search on expenses table is added but can be improved.~~ Done - Applied [Bootstrap Table](https://bootstrap-table.com/)
       * Add "select" row and "multiple delete" - Explore "bootstrap table" as an option.
+
     * Modals
       * ~~Creation and submission of forms using Modals.~~ - Done
       * ~~Validation to display in Modals and not take back to the page form.~~ - Done
       * ~~Make the update button disappear for entries created by other users.~~ Done
-      * Make modal changes for ~~Users table~~ Done
+      * ~~Make modal changes for Users table~~ Done
       * Make modal changes for Posts Table.
       * Clean Up code
     * Creation of subforms - Possibly just a mechanism to add modals. Although need to understand the cascade of deletion using SQLAlchemy.
@@ -48,5 +50,5 @@
   <li> Go to Registered users and delete the default admin user you created.</li>
   <li> Explore further!!!</li>
 </ol>
-
+</div>
 {% endblock content %}
