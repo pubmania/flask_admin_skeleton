@@ -14,7 +14,7 @@
         <div class="amount-section">
 
           <!-- <form method="POST" action="/user/new"> -->
-          <form method="POST" action="{{ url_for('users.update_user', user_id=user.id) }}">
+          <form method="POST" action="{{ url_for('users.update_testuser', user_id=user.id) }}">
           {{ form.hidden_tag() }}
           <fieldset class="form-group">
             <legend class="border-bottom mb-4">{{ legend }}</legend>
@@ -33,17 +33,9 @@
 
         </div>
         <div class="modal-footer">
-          <a class="btn btn-secondary" href="{{ url_for('users.registeredusers') }}">Close</a>
+          <a class="btn btn-secondary" href="{{ url_for('users.registeredtestuser') }}">Close</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-{% if form.errors %}
-
-<script>
-$('#AddNewModal').modal('show');
-</script>
-
-{% endif %}
