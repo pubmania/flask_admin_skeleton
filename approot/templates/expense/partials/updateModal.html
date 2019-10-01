@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body">
         <div class="amount-section">
-            <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
+            <form method="POST" action="{{ url_for('expenses.update_testexpense', expense_id=expense.id) }}">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">{{ legend }}</legend>
@@ -31,7 +31,7 @@
                 </div>
       </div>
       <div class="modal-footer">
-        <a class="btn btn-secondary" href="{{ url_for('expenses.expense') }}">Close</a>
+        <a class="btn btn-secondary" href="{{ url_for('expenses.testexpense') }}">Close</a>
 
           <!-- <a href='#' class="btn btn-primary"> Update </a> -->
 
