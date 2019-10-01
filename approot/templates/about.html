@@ -27,7 +27,7 @@
       * ~~Make modal changes for Users table~~ Done
       * Make modal changes for Posts Table.
       * Clean Up code
-    * Creation of subforms - Possibly just a mechanism to add modals. Although need to understand the cascade of deletion using SQLAlchemy.
+    * Creation of subforms - Possibly just a mechanism to add modals. ~~Although need to understand the cascade of deletion using SQLAlchemy.~~ CASCADE Deletion now works. Just needed to ensure the models definition included `cascade='all,delete,delete-orphan'` in the relationship definition.
     </pre>
 
   <h2>How To?</h2>

@@ -7,6 +7,13 @@ Once the user has access, (s)he can create a post and enter expenses. This funct
 More specifically, usage of dropdown and display of date field and checkboxes.
 
 # Change Log:
+01/10/2019
+* Updated Macro to make it work better for SelectField (populate the selected option on update form), DecimalField (add number fieldtype and step)
+* Created tabular_view.html which can be used for displaying table for any query data. All data to be displayed and columns can just be passed from routes.py.
+* Complete rewrite of expenses and users routes to make them work with single template - Ensuring DRY principle.
+* Added "Save and Continue" functionality on the "AddModal"
+
+
 
 22/09/2019
 * Bootstrap Table related - Removed Server side pagination
@@ -31,7 +38,7 @@ More specifically, usage of dropdown and display of date field and checkboxes.
   * ~~Make modal changes for Users table~~ Done
   * Make modal changes for Posts Table.
   * Clean Up code
-* Creation of subforms - Possibly just a mechanism to add modals. Although need to understand the cascade of deletion using SQLAlchemy.
+* Creation of subforms - Possibly just a mechanism to add modals. ~~Although need to understand the cascade of deletion using SQLAlchemy.~~ CASCADE Deletion now works. Just needed to ensure the models definition included `cascade='all,delete,delete-orphan'` in the relationship definition.
 
 # Demo
 
