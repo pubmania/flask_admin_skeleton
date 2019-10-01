@@ -62,12 +62,12 @@
                       </div>
                       <div align="center">
                         <!--<div class="article-metadata">-->
-                          <a class="mr-2" href="{{ url_for('expenses.user_expenses', username=expense.author.username) }}">{{ expense.author.username }}</a>
+                          <a class="mr-2" href="{{ url_for('expenses.user_testexpenses', username=expense.author.username) }}">{{ expense.author.username }}</a>
                         <!--</div>-->
                       </div>
                   </td>
                   <!-- <td>{{ expense.description }}</td> -->
-                  <form method="POST" action="{{ url_for('expenses.update_expense', expense_id=expense.id) }}">
+                  <form method="POST" action="{{ url_for('expenses.update_testexpense', expense_id=expense.id) }}">
                     <fieldset class="form-group" style="display:none">
                       {{ form.hidden_tag() }}
                       <!--{% set row_id = expense.id|string %}-->
@@ -91,7 +91,7 @@
 
 
                       {% if current_user.username == expense.author.username %}
-                        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}"><i class="fas fa-edit"></button></td>
+                        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ expense.id }}"><i class="fas fa-edit"></i></button></td>
                         <!--<td><span><button type="button" class="btn btn-info btn-sm m-1" style="Display:block" id="btn_ed{{ expense.id }}"><i class="fas fa-edit"></i></button>
                         <button type="button" class="btn btn-info btn-sm m-1" style="Display:none" id="btn_cancel{{ expense.id }}"><i class="far fa-window-close"></i></button>
                         </span></td>

@@ -9,35 +9,36 @@ from approot.users.utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
 
+##########################  New Change to allow usage of just one template for tabular views#######################
 @users.route("/registeredusers", methods=['GET', 'POST'])
 @login_required
 def registeredusers():
-    #page = request.args.get('page', 1, type=int)
-    #users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=5)
     users = User.query.order_by(User.username.desc()).all()
-    form = UpdateRegistredUsersForm()
-    users_data = User.query.order_by(User.username.desc()).all()
-    return render_template('user/registeredusers.html', title='Registered Users', form=form, users=users)
-
-@users.route("/user/delete/<int:user_id>", methods=['POST'])
-@login_required
-def delete_user(user_id):
-    user = User.query.get_or_404(user_id)
-    if user.id == current_user.id:
-        flash('You cannot delete your own account!', 'danger')
+    if current_user.role != 'Admin':
+        flash('Your role does not permit access to this page!', 'danger')
         abort(403)
-    db.session.delete(user)
-    db.session.commit()
-    flash('User has been deleted!', 'success')
-    return redirect(url_for('users.registeredusers'))
+    fields = ['author', 'email', 'role']
+    editfields = ['username', 'email', 'role']
+    columns = [
+    {'name':'Username','sortable':"true"},
+    {'name':'Email','sortable':"false"},
+    {'name':'Role','sortable':"true"}]
+    rows = []
+    for user in users:
+        userdict = {'id':user.id, 'author':user.username,'email':user.email,'role':user.role, 'username':user.username}
+        rows.append(userdict)
+    form = UpdateRegistredUsersForm()
+    row_id=None
+    return render_template('tabular_view.html', form=form, \
+    columns=columns, rows=rows, fields=fields, editfields=editfields, \
+    update_route='users.update_user', self_route='users.registeredusers',row_id=row_id, \
+    delete_route='users.delete_user', title='Registerd Users')
 
-@users.route("/user/update/<int:user_id>", methods=['GET', 'POST'])
+@users.route("/user/update/<int:row_id>", methods=['GET', 'POST'])
 @login_required
-def update_user(user_id):
-    user = User.query.get_or_404(user_id)
-    #if user.id == current_user.id:
-    #    flash('You cannot update your own account!', 'danger')
-    #    abort(403)
+def update_user(row_id):
+    user = User.query.get_or_404(row_id)
+
     form = UpdateRegistredUsersForm()
     if form.validate_on_submit():
         try:
@@ -58,14 +59,71 @@ def update_user(user_id):
                 flash('User details have not been updated', 'warning')
             else:
                 flash(s, 'warning')
-    return redirect(url_for('users.registeredusers', user_id=user_id))
-""" Commented to see if this will have any negative effect on the flow - I think it won't
-    elif request.method == 'GET':
-        form.username.data = user.username
-        form.email.data = user.email
-        form.role.data = user.role
-    #return render_template('user/unused_updateuser.html', title='Update User',
-    #                       form=form, legend='Update User')"""
+    return redirect(url_for('users.registeredusers', row_id=row_id))
+
+@users.route("/user/delete/<int:row_id>", methods=['POST'])
+@login_required
+def delete_user(row_id):
+    user = User.query.get_or_404(row_id)
+    if user.id == current_user.id:
+        flash('You cannot delete your own account!', 'danger')
+        abort(403)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted!', 'success')
+    return redirect(url_for('users.registeredusers'))
+###################################################################################################################
+
+@users.route("/registeredtestuser", methods=['GET', 'POST'])
+@login_required
+def registeredtestuser():
+    #page = request.args.get('page', 1, type=int)
+    #users = User.query.order_by(User.username.desc()).paginate(page=page, per_page=5)
+    users = User.query.order_by(User.username.desc()).all()
+    form = UpdateRegistredUsersForm()
+    users_data = User.query.order_by(User.username.desc()).all()
+    return render_template('user/unused_registeredusers.html', title='Registered Users', form=form, users=users)
+
+@users.route("/testuser/delete/<int:user_id>", methods=['POST'])
+@login_required
+def delete_testuser(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.id == current_user.id:
+        flash('You cannot delete your own account!', 'danger')
+        abort(403)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User has been deleted!', 'success')
+    return redirect(url_for('users.registeredtestusers'))
+
+@users.route("/testuser/update/<int:user_id>", methods=['GET', 'POST'])
+@login_required
+def update_testuser(user_id):
+    user = User.query.get_or_404(user_id)
+    #if user.id == current_user.id:
+    #    flash('You cannot update your own account!', 'danger')
+    #    abort(403)
+    form = UpdateRegistredUsersForm()
+    if form.validate_on_submit():
+        try:
+            user.username = form.username.data
+            user.email = form.email.data
+            user.role = form.role.data
+            db.session.commit()
+            flash('User details have been updated!', 'success')
+            return redirect(url_for('users.registeredtestusers'))
+        except Exception as e:
+            db.session.rollback()
+            s = str(e)
+            if "user.username" in s:
+                flash('This username is already taken. Please chose a different one.', 'danger')
+                flash('User details have not been updated', 'warning')
+            elif "user.email" in s:
+                flash('This email is already registered. Please chose a different one.', 'danger')
+                flash('User details have not been updated', 'warning')
+            else:
+                flash(s, 'warning')
+    return redirect(url_for('users.registeretestdusers', user_id=user_id))
 
 
 @users.route("/register", methods=['GET', 'POST'])
