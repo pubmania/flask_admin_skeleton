@@ -1,0 +1,72 @@
+{% macro form_field_custom(field) -%}
+  <div class="form-group">
+
+    {% set with_label = kwargs.pop('with_label', False) %}
+    {% set placeholder = '' %}
+    {% if not with_label %}
+        {% set placeholder = field.label.text %}
+    {% endif %}
+
+    {% if with_label and field.type != 'BooleanField' %}
+    <div class="form-control-label">
+      <label for="{{ field.id }}" class="control-label">
+      {{ field.label }}
+      {% if field.flags.required %}
+      <font color="red">*</font>
+      {% endif %}
+      :
+      </label>
+    </div>
+    {% endif %}
+
+    {% set class_ = kwargs.pop('class_', '') %}
+    {% set class_ = class_+ 'form-control form-control-sm' %}
+
+    {% if field.errors %}
+      {% set class_ = class_ + ' is-invalid' %}
+    {% endif %}
+
+    {% if field.flags.required %}
+        {% set class_ = class_ + ' required' %}
+    {% endif %}
+
+    {% if field.type == 'BooleanField' %}
+        <label class="checkbox">
+            {% set value = kwargs.pop('value', '') %}
+            {% if value == True %}
+              {{ field(class_=class_,checked="checked", **kwargs) }}
+            {% else %}
+              {{ field(class_=class_, **kwargs) }}
+            {% endif %}
+            {{ field.label(class="form-control-label")|safe }}
+        </label>
+
+    {% else %}
+        {% if field.type in ('TextField', 'TextAreaField', 'PasswordField') %}
+            {% set class_ = class_ + ' input-xlarge' %}
+        {% elif field.type == 'FileField' %}
+            {% set class_ = class_ + ' form-control-file' %}
+        {% endif %}
+
+        {% if field.type == 'DecimalField' %}
+          {{ field(class_=class_, placeholder=placeholder,type="number", step="0.01", **kwargs) }}
+        {% elif field.type == 'SelectField' %}
+          {% set value = kwargs.pop('value', '') %}
+          {% set z = field.process_data(value) %}
+          {{ field(class_=class_, placeholder=placeholder,**kwargs) }}
+        {% else %}
+          {{ field(class_=class_, placeholder=placeholder,**kwargs) }}
+        {% endif %}
+
+        {% if field.errors %}
+          <div class="invalid-feedback">
+              <span>{{ field.errors|join(', ') }}</span>
+          </div>
+        {% endif %}
+    {% endif %}
+
+    {% if field.description %}
+        <p class="help-block">{{ field.description|safe }}</p>
+    {% endif %}
+  </div>
+{%- endmacro %}
