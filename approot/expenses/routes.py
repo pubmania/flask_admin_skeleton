@@ -82,7 +82,7 @@ def update_expense(row_id):
         db.session.commit()
         flash('Your expense has been updated!', 'success')
         return redirect(url_for('expenses.expense'))
-    return redirect(url_for('expenses.expense'), row_id=row_id)
+    return redirect(url_for('expenses.expense', row_id=row_id))
 
 @expenses.route("/expense/delete/<int:row_id>", methods=['POST'])
 @login_required
@@ -157,7 +157,7 @@ def update_testexpense(expense_id):
     #return render_template('expense/expense.html', title='Update Expense',
     #                       form=form, legend='Update Expense')
     #return render_template('expense/expense.html', expenses=expenses_from_query, form=form, expense_id=expense_id)
-    return redirect(url_for('expenses.testexpense'), expense_id=expense_id)
+    return redirect(url_for('expenses.testexpense', expense_id=expense_id))
 
 @expenses.route("/testexpense/delete/<int:expense_id>", methods=['POST'])
 @login_required
