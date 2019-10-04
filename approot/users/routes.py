@@ -6,6 +6,8 @@ from approot.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm, UpdateRegistredUsersForm)
 from approot.expenses.forms import ExpenseForm
 from approot.users.utils import save_picture, send_reset_email
+import approot.main.utils
+from approot.main.utils import get_symbol
 
 users = Blueprint('users', __name__)
 
@@ -17,7 +19,7 @@ def registeredusers():
     if current_user.role != 'Admin':
         flash('Your role does not permit access to this page!', 'danger')
         abort(403)
-    fields = ['author', 'email', 'role', 'dark_mode', 'theme']
+    displayfields = ['author', 'email', 'role', 'dark_mode_get_symbol', 'theme']
     editfields = [
     {'name':'username'},
     {'name':'email'},
@@ -37,6 +39,7 @@ def registeredusers():
         'author':user.username,
         'email':user.email,
         'role':user.role,
+        'dark_mode_get_symbol':get_symbol(user.dark_mode),
         'dark_mode':user.dark_mode,
         'username':user.username,
         'theme':user.theme}
@@ -44,7 +47,7 @@ def registeredusers():
     form = UpdateRegistredUsersForm()
     row_id=None
     return render_template('tabular_view.html', form=form, \
-    columns=columns, rows=rows, fields=fields, editfields=editfields, \
+    columns=columns, rows=rows, fields=displayfields, editfields=editfields, \
     update_route='users.update_user', self_route='users.registeredusers',row_id=row_id, \
     delete_route='users.delete_user', title='Registerd Users')
 

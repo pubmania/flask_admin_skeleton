@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from approot import db
 from approot.models import Expense, User
 from approot.expenses.forms import ExpenseForm
-
+from approot.main.utils import get_symbol
 expenses = Blueprint('expenses', __name__)
 
 ########################## New Change to allow usage of just one template for tabular views###############
@@ -14,7 +14,7 @@ expenses = Blueprint('expenses', __name__)
 def expense(continue_flag):
     #expenses = Expense.query.filter_by(author=current_user).order_by(Expense.expense_date.desc()).all()
     expenses = Expense.query.order_by(Expense.expense_date.desc()).all()
-    fields = ['author', 'description', 'amount', 'expense_date', 'vat_amount', 'Transferrable_val']
+    displayfields = ['author', 'description', 'amount', 'expense_date', 'vat_amount', 'Transferrable_val']
     editfields = [
     {'name':'description'},
     {'name':'amount'},
@@ -34,20 +34,20 @@ def expense(continue_flag):
     rows = []
     for expense in expenses:
 
-        if expense.Transferrable == True:
-            transferrable_var = u'\u2714'
-        else:
-            transferrable_var = u'\u2717'
+        #if expense.Transferrable == True:
+        #    transferrable_var = u'\u2714'
+        #else:
+        #    transferrable_var = u'\u2717'
         expensedict = {'id':expense.id, 'author':expense.author.username,
                       'description':expense.description, 'amount':"{:.2f}".format(expense.amount),
                       'expense_date':expense.expense_date.strftime('%Y-%m-%d'),
-                      'vat_amount':"{:.2f}".format(expense.vat_amount), 'Transferrable_val':transferrable_var,
+                      'vat_amount':"{:.2f}".format(expense.vat_amount), 'Transferrable_val':get_symbol(expense.Transferrable),
                       'Transferrable':expense.Transferrable
                       }
         rows.append(expensedict)
     form = ExpenseForm()
     return render_template('tabular_view.html', form=form, columns=columns, rows=rows, \
-    fields=fields, editfields=editfields, update_route='expenses.update_expense', \
+    fields=displayfields, editfields=editfields, update_route='expenses.update_expense', \
     self_route='expenses.expense', create_route='expenses.new_expense', buttonName=buttonName,\
     delete_route='expenses.delete_expense', continue_flag=continue_flag)
 
