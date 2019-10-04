@@ -3,8 +3,19 @@
 This app shows the basic usage of Flask framework. It allows creation and deletion of users.   
 A user can self register but will require an approval from administrator before the user can have access to database entries.
 
-Once the user has access, (s)he can create a post and enter expenses. This functionality demonstrates the usage of `wtforms`.
-More specifically, usage of dropdown and display of date field and checkboxes.
+This app shows the basic usage of Flask framework. It allows creation and deletion of users.
+A user can self register but will require an approval from administrator before the user can have access to database entries.
+
+Once the user has access, (s)he can create a post and enter expenses.
+It demonstrates the usage of `jinja2 macros`, `jinja2 templates` that are reusable.
+There is one template called `tabular_view.html` which can generate the table based on values passed as explained below.
+It also uses three partial templates `addModalNew.html`, `deleteModalNew.html` and `updateModalNew.html`
+which in turn use the values passed to the parent template.
+
+The python code that renders the `tabular_view.html` can be seen in the functions `expenses` in approot/expense/routes.py
+and `registeredusers` in approot/users/routes.py
+
+Detailed explanation [here](https://flask-admin-skeleton.herokuapp.com/about)
 
 # Change Log:
 04/10/2019
