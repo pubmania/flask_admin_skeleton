@@ -15,7 +15,14 @@ def expense(continue_flag):
     #expenses = Expense.query.filter_by(author=current_user).order_by(Expense.expense_date.desc()).all()
     expenses = Expense.query.order_by(Expense.expense_date.desc()).all()
     fields = ['author', 'description', 'amount', 'expense_date', 'vat_amount', 'Transferrable_val']
-    editfields = ['description', 'amount', 'expense_date', 'vat_amount', 'Transferrable']
+    editfields = [
+    {'name':'description'},
+    {'name':'amount'},
+    {'name':'expense_date'},
+    {'name':'vat_amount'},
+    {'name':'Transferrable', 'switch':False}
+    ]
+
     buttonName = 'Add New Expenses'
     columns = [
     {'name':'Author','sortable':"true"},

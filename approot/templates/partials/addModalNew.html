@@ -17,7 +17,11 @@
             <legend class="border-bottom mb-4">{{ legend }}</legend>
 
             {% for editfield in editfields %}
-                {{ form_field_custom(form|attr(editfield), with_label=true) }}
+            {% if editfield.switch %}
+                {{ form_field_custom(form|attr(editfield.name), with_label=true, switch=True) }}
+            {% else %}
+                {{ form_field_custom(form|attr(editfield.name), with_label=true) }}
+            {% endif %}
             {% endfor %}
 
             <div class="row">
