@@ -57,7 +57,7 @@
         <td>{{ row[field] }}</td>
       {% endfor %}
       {% if create_route %}
-        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ row.id }}"><i class="fas fa-clone"></i></button></td>
+        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#cloneModal{{ row.id }}"><i class="fas fa-clone"></i></button></td>
         {% include "partials/cloneModalNew.html" %}
       {% endif %}
       {% if current_user.username == row.author or current_user.role == "Admin"%}
