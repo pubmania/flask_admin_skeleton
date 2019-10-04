@@ -32,6 +32,10 @@ class UpdateRegistredUsersForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     role = SelectField(u'Role', choices=[('Admin', 'Admin'), ('Regular', 'Regular'), ('Pending', 'Pending')])
+    dark_mode = BooleanField('Enable Dark Mode?')
+    theme = SelectField(u'Theme', choices=[('Default', 'Default'), ('Sketchy', 'Sketchy'), ('Minty', 'Minty')])
+
+
     submit = SubmitField('Update')
 
 class LoginForm(FlaskForm):
@@ -47,6 +51,8 @@ class UpdateAccountForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
+    dark_mode = BooleanField('Enable Dark Mode?')
+    theme = SelectField(u'Theme', choices=[('Default', 'Default'), ('Sketchy', 'Sketchy'), ('Minty', 'Minty')])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 

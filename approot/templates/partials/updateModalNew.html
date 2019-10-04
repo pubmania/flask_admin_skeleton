@@ -16,7 +16,11 @@
                 <fieldset class="form-group">
                     <legend class="border-bottom mb-4">{{ legend }}</legend>
                     {% for editfield in editfields %}
-                        {{ form_field_custom(form|attr(editfield), with_label=true, value=row[editfield]) }}
+                    {% if editfield.switch %}
+                        {{ form_field_custom(form|attr(editfield.name), with_label=true, switch=True, value=row[editfield.name]) }}
+                    {% else %}
+                        {{ form_field_custom(form|attr(editfield.name), with_label=true, value=row[editfield.name]) }}
+                    {% endif %}
                     {% endfor %}
                     <p><button type="submit" class="btn btn-primary">Update</button></p>
                 </fieldset>

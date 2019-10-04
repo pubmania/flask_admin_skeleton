@@ -17,15 +17,29 @@ def registeredusers():
     if current_user.role != 'Admin':
         flash('Your role does not permit access to this page!', 'danger')
         abort(403)
-    fields = ['author', 'email', 'role']
-    editfields = ['username', 'email', 'role']
+    fields = ['author', 'email', 'role', 'dark_mode', 'theme']
+    editfields = [
+    {'name':'username'},
+    {'name':'email'},
+    {'name':'role'},
+    {'name':'dark_mode','switch':True},
+    {'name':'theme'}
+    ]
     columns = [
     {'name':'Username','sortable':"true"},
     {'name':'Email','sortable':"false"},
-    {'name':'Role','sortable':"true"}]
+    {'name':'Role','sortable':"true"},
+    {'name':'Dark Mode','sortable':"false"},
+    {'name':'Theme','sortable':"false"}]
     rows = []
     for user in users:
-        userdict = {'id':user.id, 'author':user.username,'email':user.email,'role':user.role, 'username':user.username}
+        userdict = {'id':user.id,
+        'author':user.username,
+        'email':user.email,
+        'role':user.role,
+        'dark_mode':user.dark_mode,
+        'username':user.username,
+        'theme':user.theme}
         rows.append(userdict)
     form = UpdateRegistredUsersForm()
     row_id=None
@@ -45,6 +59,8 @@ def update_user(row_id):
             user.username = form.username.data
             user.email = form.email.data
             user.role = form.role.data
+            user.dark_mode = form.dark_mode.data
+            user.theme = form.theme.data
             db.session.commit()
             flash('User details have been updated!', 'success')
             return redirect(url_for('users.registeredusers'))
@@ -72,6 +88,8 @@ def delete_user(row_id):
     db.session.commit()
     flash('User has been deleted!', 'success')
     return redirect(url_for('users.registeredusers'))
+
+
 ###################################################################################################################
 
 @users.route("/registeredtestuser", methods=['GET', 'POST'])
@@ -174,12 +192,16 @@ def account():
             current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
+        current_user.dark_mode = form.dark_mode.data
+        current_user.theme = form.theme.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        form.dark_mode.data = current_user.dark_mode
+        form.theme.data = current_user.theme
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('user/account.html', title='Account',
                            image_file=image_file, form=form)

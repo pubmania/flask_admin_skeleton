@@ -17,6 +17,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     role = db.Column(db.String(15), nullable=False)
+    dark_mode = db.Column(db.Boolean(15), nullable=False, default=False)
+    theme = db.Column(db.String(15), nullable=False, default='Default')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', cascade='all,delete,delete-orphan', lazy=True)
     expenses = db.relationship('Expense', backref='author', cascade='all,delete,delete-orphan', lazy=True)
@@ -36,7 +38,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.role}')"
+        return f"User('{self.username}', '{self.email}', '{self.image_file}', '{self.role}', '{self.dark_mode}', '{self.theme}' )"
 
 
 class Post(db.Model):

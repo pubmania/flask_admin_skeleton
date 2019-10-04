@@ -5,13 +5,27 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-      <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
-
-
-      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+        <!-- Bootstrap CSS -->
+      {% if current_user.is_authenticated %}
+        {% if current_user.theme.upper() == "DEFAULT" %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        {% endif %}
+        {% if current_user.theme.upper() == "SKETCHY" %}
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/sketchy/bootstrap.min.css">
+        {% endif %}
+        {% if current_user.theme.upper() == "MINTY" %}
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/minty/bootstrap.min.css">
+        {% endif %}
+      {% else %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      {% endif %}
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.4/dist/bootstrap-table.min.css">
+      {% if current_user.is_authenticated and current_user.dark_mode == True%}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+      {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='light_theme_main.css') }}">
+      {% endif %}
       <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
       <!-- Optional JavaScript -->
@@ -58,6 +72,17 @@
               </div>
               <!-- Navbar Right Side -->
               <div class="navbar-nav">
+                <div class="container">
+                <div class="dropdown">
+                 <a class="dropdown-toggle" data-toggle="dropdown">Dropdown Example
+                 <span class="caret"></span></a>
+                 <ul class="dropdown-menu">
+                   <li><a href="#">HTML</a></li>
+                   <li><a href="#">CSS</a></li>
+                   <li><a href="#">JavaScript</a></li>
+                 </ul>
+               </div>
+             </div>
                 {% if current_user.is_authenticated and current_user.role != 'Pending' %}
                   <!-- <a class="nav-item nav-link" href="{{ url_for('expenses.new_expense', continue_flag = 'No') }}" title="New Expense"><i class="fas fa-cash-register" style="font-size:30px"></i></a> -->
                   <!-- <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}" title="New Post"><i class="fas fa-pen-nib" style="font-size:30px"></i></a> -->

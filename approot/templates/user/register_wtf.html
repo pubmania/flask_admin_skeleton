@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% from "util/macros_modified.html" import form_field_custom with context %}
-{% import "bootstrap/wtf.html" as wtf %}
+
 
 {% block content %}
 <div class="row">
@@ -10,7 +10,7 @@
     <div class="content-section mt-3">
       <form method="POST" action="{{ url_for('users.register') }}">
           {{ form.hidden_tag() }}
-          <!--{{ wtf.quick_form(form) }}-->
+
           <legend class="border-bottom mb-4">Register</legend>
           {{ form_field_custom(form.username,with_label=True) }}
           {{ form_field_custom(form.email,with_label=True) }}

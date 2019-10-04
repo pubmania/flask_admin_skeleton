@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% from "util/macros_modifiedNew.html" import form_field_custom with context %}
 {% block content %}
     <div class="content-section">
       <div class="media">
@@ -8,11 +9,33 @@
           <p class="text-secondary">{{ current_user.email }}</p>
         </div>
       </div>
+
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Account Info</legend>
-                <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    {{ form_field_custom(form.username,with_label=True) }}
+                    {{ form_field_custom(form.email,with_label=True, type="email") }}
+                    {{ form_field_custom(form.picture,with_label=True,class="form-control-file") }}
+                  </div>
+                  <div class="col-md-6">
+                    
+                       {{ form_field_custom(form.theme, with_label=True, value=current_user.theme) }}
+                       {{ form_field_custom(form.dark_mode,switch=True) }}
+
+                  </div>
+                </div>
+                </div>
+              </fieldset>
+              <div class="form-group">
+                  {{ form.submit(class="btn btn-primary") }}
+              </div>
+          </form>
+
+    </div>
+                <!-- <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
 
                     {% if form.username.errors %}
@@ -47,11 +70,12 @@
                             <span class="text-danger">{{ error }}</span></br>
                         {% endfor %}
                     {% endif %}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-        </form>
-    </div>
+                </div> -->
+
+
+
+
+
+
+
 {% endblock content %}

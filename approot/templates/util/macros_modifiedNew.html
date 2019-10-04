@@ -31,16 +31,37 @@
     {% endif %}
 
     {% if field.type == 'BooleanField' %}
-        <label class="checkbox">
-            {% set value = kwargs.pop('value', '') %}
-            {% if value == True %}
-              {{ field(class_=class_,checked="checked", **kwargs) }}
-            {% else %}
-              {{ field(class_=class_, **kwargs) }}
-            {% endif %}
-            {{ field.label(class="form-control-label")|safe }}
-        </label>
-
+      {% if kwargs.pop('switch', '')==True %}
+          <div class="form-control-label">
+            <label for="{{ field.id }}" class="control-label">
+              {{ field.label }}
+              :
+            </label>
+          </div>
+          <div class>
+            <font class="mt-1 text-muted" size="1pt">Off</font>
+            <label class="switch">
+                {% set value = kwargs.pop('value', '') %}
+                {% if value == True %}
+                  {{ field(class_=class_,checked="checked", **kwargs) }}
+                {% else %}
+                  {{ field(class_=class_, **kwargs) }}
+                {% endif %}
+                <span class="slider round"></span>
+            </label>
+            <font class="mt-1 text-muted" size="1pt">On</font>
+          </div>
+        {% else %}
+          <label class="checkbox">
+              {% set value = kwargs.pop('value', '') %}
+              {% if value == True %}
+                {{ field(class_=class_,checked="checked", **kwargs) }}
+              {% else %}
+                {{ field(class_=class_, **kwargs) }}
+              {% endif %}
+              {{ field.label(class="form-control-label")|safe }}
+          </label>
+      {% endif %}
     {% else %}
         {% if field.type in ('TextField', 'TextAreaField', 'PasswordField') %}
             {% set class_ = class_ + ' input-xlarge' %}
