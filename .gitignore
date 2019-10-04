@@ -2,5 +2,6 @@
 .env
 __pycache__
 .#*
-site.db
+*.db
 favicon.ico
+*.jpg
