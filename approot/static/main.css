@@ -88,6 +88,7 @@ h1, h2, h3, h4, h5, h6 {
 pre {
     font-size: 87.5%;
     color: #2e8709;
+    border-radius: 5px;
 }
 
 .bg-steel {

@@ -13,7 +13,8 @@ expenses = Blueprint('expenses', __name__)
 @login_required
 def expense(continue_flag):
     #expenses = Expense.query.filter_by(author=current_user).order_by(Expense.expense_date.desc()).all()
-    expenses = Expense.query.order_by(Expense.expense_date.desc()).all()
+    form = ExpenseForm()
+
     displayfields = ['author', 'description', 'amount', 'expense_date', 'vat_amount', 'Transferrable_val']
     editfields = [
     {'name':'description'},
@@ -32,6 +33,7 @@ def expense(continue_flag):
     {'name':'VAT Amount','sortable':"false"},
     {'name':'Transferrable','sortable':"false"}]
     rows = []
+    expenses = Expense.query.order_by(Expense.expense_date.desc()).all()
     for expense in expenses:
 
         #if expense.Transferrable == True:
@@ -45,7 +47,7 @@ def expense(continue_flag):
                       'Transferrable':expense.Transferrable
                       }
         rows.append(expensedict)
-    form = ExpenseForm()
+
     return render_template('tabular_view.html', form=form, columns=columns, rows=rows, \
     fields=displayfields, editfields=editfields, update_route='expenses.update_expense', \
     self_route='expenses.expense', create_route='expenses.new_expense', buttonName=buttonName,\

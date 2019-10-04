@@ -7,9 +7,88 @@
   A user can self register but will require an approval from administrator before the user can have access to database entries.
 </p>
 <p>
-  Once the user has access, (s)he can create a post and enter expenses. This functionality demonstrates the usage of <code>wtforms</code>.
-  More specifically, usage of dropdown and display of date field and checkboxes.
+  Once the user has access, (s)he can create a post and enter expenses.
+  It demonstrates the usage of <code>jinja2 macros</code>, <code>jinja2 templates</code> that are reusable.
+  There is one template called <code>tabular_view.html</code> which can generate the table based on values passed as explained below.
+  It also uses three partial templates <code>addModalNew.html</code>, <code>deleteModalNew.html</code> and <code>updateModalNew.html</code>
+  which in turn use the values passed to the parent template.
+
+  The python code that renders the <code>tabular_view.html</code> can be seen in the functions <code>expenses</code> in approot/expense/routes.py
+  and <code>registeredusers</code> in approot/users/routes.py
+
+  Explained below is the usage:
 </p>
+
+Create function:
+  <pre>
+  @users.route("/registeredusers", methods=['GET', 'POST'])
+  @login_required
+  def registeredusers():
+  </pre>
+  Now check that the function can be called or needs to be aborted and then assign the form that template will be using.
+  <pre>
+      if current_user.role != 'Admin':
+          flash('Your role does not permit access to this page!', 'danger')
+          abort(403)
+      form = UpdateRegistredUsersForm()
+  </pre>
+  Now declare the fields that you want displayed in a list called displayfield
+  <pre>
+      displayfields = ['author', 'email', 'role', 'dark_mode_get_symbol', 'theme']
+  </pre>
+  Then declare the fields that you would want displayed on the modals (update and add modals will both use this list).
+  Notice that dark_mode has an additional key 'switch' which allows display of checkbox as a switch rather than a tickbox on the form.
+  The 'name' key must correspond to the actual name of the field in the form that will be passed to the template.
+  <pre>
+    editfields = [
+    {'name':'username'},
+    {'name':'email'},
+    {'name':'role'},
+    {'name':'dark_mode','switch':True},
+    {'name':'theme'}
+    ]
+  </pre>
+  Now declare the columns you would like displayed in the table. If you want the column to be sortable, pass the value for key 'sortable' as 'true' (all lowercase).
+  <pre>
+    columns = [
+    {'name':'Username','sortable':"true"},
+    {'name':'Email','sortable':"false"},
+    {'name':'Role','sortable':"true"},
+    {'name':'Dark Mode','sortable':"false"},
+    {'name':'Theme','sortable':"false"}]
+  </pre>
+  Write the query to get data from the database table. Now declare a list variable rows which will store this data in dictionary format
+  and will be used by the templates.
+  <pre>
+    users = User.query.order_by(User.username.desc()).all()
+    rows = []
+    for user in users:
+        userdict = {'id':user.id,
+        'author':user.username,
+        'email':user.email,
+        'role':user.role,
+        'dark_mode_get_symbol':get_symbol(user.dark_mode),
+        'dark_mode':user.dark_mode,
+        'username':user.username,
+        'theme':user.theme}
+        rows.append(userdict)
+  </pre>
+
+  declare the row_id variable as 'None'. This is used in the template for displaying error on update modal and will be set and passed by update function separately.
+  <pre>
+    row_id=None
+  </pre>
+  Finally render template and pass all the above values like so:
+  <pre>
+    return render_template('tabular_view.html', form=form, \
+    columns=columns, rows=rows, fields=displayfields, editfields=editfields, \
+    update_route='users.update_user', self_route='users.registeredusers',row_id=row_id, \
+    delete_route='users.delete_user', title='Registerd Users')
+  </pre>
+
+  Use this explanation to follow the usage in expense function to get a better uderstanding.
+
+
 
   <h2>Further activities to explore:</h2>
   <pre>

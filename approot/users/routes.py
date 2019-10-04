@@ -15,10 +15,10 @@ users = Blueprint('users', __name__)
 @users.route("/registeredusers", methods=['GET', 'POST'])
 @login_required
 def registeredusers():
-    users = User.query.order_by(User.username.desc()).all()
     if current_user.role != 'Admin':
         flash('Your role does not permit access to this page!', 'danger')
         abort(403)
+    form = UpdateRegistredUsersForm()
     displayfields = ['author', 'email', 'role', 'dark_mode_get_symbol', 'theme']
     editfields = [
     {'name':'username'},
@@ -34,6 +34,7 @@ def registeredusers():
     {'name':'Dark Mode','sortable':"false"},
     {'name':'Theme','sortable':"false"}]
     rows = []
+    users = User.query.order_by(User.username.desc()).all()
     for user in users:
         userdict = {'id':user.id,
         'author':user.username,
@@ -44,7 +45,6 @@ def registeredusers():
         'username':user.username,
         'theme':user.theme}
         rows.append(userdict)
-    form = UpdateRegistredUsersForm()
     row_id=None
     return render_template('tabular_view.html', form=form, \
     columns=columns, rows=rows, fields=displayfields, editfields=editfields, \
