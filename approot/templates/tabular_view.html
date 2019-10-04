@@ -43,6 +43,9 @@
     {%- for column in columns %}
        <th data-sortable = "{{ column.sortable }}">{{ column.name }}</th>
     {%- endfor %}
+    {% if create_route %}
+      <th>Clone</th>
+    {% endif %}
     <th>Update</th>
     <th>Delete</th>
    </thead>
@@ -53,6 +56,10 @@
       {% for field in fields %}
         <td>{{ row[field] }}</td>
       {% endfor %}
+      {% if create_route %}
+        <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ row.id }}"><i class="fas fa-clone"></i></button></td>
+        {% include "partials/cloneModalNew.html" %}
+      {% endif %}
       {% if current_user.username == row.author or current_user.role == "Admin"%}
         <td><button type="button" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#updateModal{{ row.id }}"><i class="fas fa-edit"></i></button></td>
         <td><button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal{{ row.id }}"><i class="fas fa-trash-alt"></i></button></td>

@@ -8,9 +8,10 @@ More specifically, usage of dropdown and display of date field and checkboxes.
 
 # Change Log:
 04/10/2019
-* Added dark and light mode switch
+* Added dark and light mode switch.
 * Added the ability for user to change available themes
 * Change Account Page to have groupings for settings and user info.
+* Added "Clone" functionality.
 
 01/10/2019
 * Updated Macro to make it work better for SelectField (populate the selected option on update form), DecimalField (add number fieldtype and step)

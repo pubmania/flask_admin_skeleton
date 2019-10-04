@@ -1,0 +1,44 @@
+<!-- Update Modal -->
+{% from "util/macros_modifiedNew.html" import form_field_custom with context %}
+<div class="modal fade" id="updateModal{{ row.id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Clone Expense?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="amount-section">
+            <form method="POST" action="{{ url_for(create_route, continue_flag="No") }}">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">{{ legend }}</legend>
+                    {% for editfield in editfields %}
+                    {% if editfield.switch %}
+                        {{ form_field_custom(form|attr(editfield.name), with_label=true, switch=True, value=row[editfield.name]) }}
+                    {% else %}
+                        {{ form_field_custom(form|attr(editfield.name), with_label=true, value=row[editfield.name]) }}
+                    {% endif %}
+                    {% endfor %}
+                    <div class="row">
+                      <div class="col-md-6" align="centre">
+                      <p><button type="submit" class="btn btn-primary">Save and Close</button></p>
+                      </div>
+                      <div class="col-md-6" align="centre">
+                      <p><button type="submit" class="btn btn-info" formaction="{{ url_for(create_route, continue_flag="Yes") }}">Save and Continue</button></p>
+                      </div>
+                    </div>
+                </fieldset>
+                </form>
+                </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <a class="btn btn-secondary" href="{{ url_for(self_route) }}">Close</a> -->
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
